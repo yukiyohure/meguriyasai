@@ -1,122 +1,59 @@
 @charset "utf-8";
 
-body {
-  margin: 0;
-  font-family: "Hiragino Kaku Gothic ProN";
-}
-
-a {
-  text-decoration: none;
-}
-
-.header-left{
-  display:block;
-  float:left;
-  margin-top: 8px;
-}
-
-.header-signin{
-  display:inline-block;
-  float:right;
-  background-color:rgba(84,196,126,0.3);
-  margin:0px 10px;
-  padding:0px 10px;
-}
-
-.header-signin:hover{
-  opacity:0.8;
-}
-
-.header-signin a{
-  display:block;
-  line-height:50px;
-  color:white;
-}
-
-.header-login{
-  display:inline-block;
-  float:right;
-  background-color:rgba(84,196,126,0.3);
-  margin:0px 10px;
-  padding:0px 10px;
-}
-
-.header-login:hover{
-  opacity:0.8;
-}
-
-.header-login a{
-  line-height:50px;
-  display:block;
-  color:white;
-}
-
-.container {
-  width: 1170px;
-  padding: 0 15px;
-  margin: 0 auto;
-  border-bottom: 1px solid #eee;
+a{
+	text-decoration:none;
 }
 
 li{
-	list-style:none;
+	list-style: none;
 }
+/*navbar*/
+.navbar-brand { position: relative; z-index: 2; }
 
-header{
-  height:50px;
-  width:100%;
-  position:fixed;
-  top:0px;
-  z-index:10;
-  background-color:rgba(34,49,52,0.8);
-}
+.navbar-nav.navbar-right .btn { position: relative; z-index: 2; padding: 4px 20px; margin: 10px auto; }
 
-.logo{
-  float:left;
-  width:124px;
-  margin-top:8;
-}
+.navbar .navbar-collapse { position: relative; }
+.navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 22px; }
 
-.top-wrapper {
-  padding:180px 0px 100px 0px;
-	background-image:url(../photos/vegetables.jpg);
-	background-size:cover;
-  color:white;
-  text-align:center;
-  font-size:70px;
-}
+.navbar .nav-collapse { position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; margin: 0; padding-right: 120px; padding-left: 80px; width: 100%; }
+.navbar.navbar-default .nav-collapse { background-color: #f8f8f8; }
+.navbar.navbar-inverse .nav-collapse { background-color: #222; }
+.navbar .nav-collapse .navbar-form { border-width: 0; box-shadow: none; }
+.nav-collapse>li { float: right; }
 
-.explain{
-  text-align: center;
-}
+.btn.btn-circle { border-radius: 50px; }
+.btn.btn-outline { background-color: transparent; }
 
-.explain-text{
-  width:50%;
-  margin:0px auto;
+@media screen and (max-width: 767px) {
+    .navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 15px; padding-right: 15px; } 
+    
+    .navbar .nav-collapse { margin: 7.5px auto; padding: 0; }
+    .navbar .nav-collapse .navbar-form { margin: 0; }
+    .nav-collapse>li { float: none; }
 }
+/*./navbar*/
 
-.btn-wrapper{
-  display:inline-block;
-}
+/*cover*/
+ .jumbotron {
+ 	background:url(../photos/vegetables.jpg)center no-repeat; 
+ 	background-size: cover;
+ 	margin-top:50px;
+ 	height:400px;
+ 	color:white;
+ 	font-size:85px;
+ }
 
-.urikai{
-  float:left;
-  margin:15px 30px;
+ .title{
+ 	padding-top:100px;
+ }
+/*./cover*/
+/*text*/
+.text-area{
+	margin-bottom:90px;
 }
+/*./text*/
 
-.rireki{
-  float:left;
-  margin:15px 30px;
-}
 
-.btn{
-  background-color:orange;
-  padding:10px 10px;
-  color:white;
-  border-radius:5px;
-}
 
-.footer-logo{
-  padding:30px 20px;
-  width:124px;
-}
+
+
