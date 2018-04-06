@@ -5,7 +5,7 @@
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/product.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/buy.css">
 </head>
 <body>
 	<header>
@@ -32,50 +32,26 @@
 	</header>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-offset-4 col-md-4 text-center title">
-				<h2>野菜一覧</h2>
+			<div class="col-md-offset-4 col-md-4 title text-center">
+				<h2 clss="text-center">野菜の確認</h2>
 			</div>
 		</div>
-	</div>
-	<div class="container product">
 		<div class="row">
-			<div class="col-md-offset-2 col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/daikon.jpg"></a>
-				</div>
-				<div class="text text-center">
+			<div class="col-md-offset-3 col-md-6 text-center">
+				<img class="vege_img" src="assets/photos/daikon.jpg">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+				<div class="text-center">
 					<h4>大根　10本</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/kyabetu.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>キャベツ　3玉</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
-			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-offset-2 col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/tomato.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>不揃いサイズ　トマト　	10個</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/mikan.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>みかん　2kg</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
+			<div class="col-md-offset-4 col-md-4 text-center">
+				<a class="btn btn-danger" href="buy_confirm.php">購入する</a>
 			</div>
 		</div>
 	</div>
