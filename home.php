@@ -7,7 +7,7 @@
 	<!-- bootstrap -->
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/yasai.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/home.css">
 </head>
 <body>
 	<header>
@@ -50,7 +50,7 @@
 		<div class="row">
 			<div class="col-md-offset-3 col-md-3 text-center">
 				<p class="text-center">野菜が欲しい方</p>
-				<a class="btn btn-warning text-center" href="" >野菜一覧</a>
+				<a class="btn btn-warning text-center" href="product.php" >野菜一覧</a>
 			</div>
 			<div class="col-md-3 text-center">
 				<p class="text-center">野菜をもらった履歴</p>
