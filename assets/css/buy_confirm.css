@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+a{
+	text-rendering: none;
+}
+
+li{
+	list-style: none;
+}
+
+body{
+	background-color: #FFFACD;
+}
+
+.contents{
+	margin-top:60px;
+}
+
+.box{
+	margin-top:100px;
+}
