@@ -7,6 +7,10 @@ a{
 li{
 	list-style: none;
 }
+
+body{
+	background-color: #FFFACD;
+}
 /*navbar*/
 .navbar-brand { position: relative; z-index: 2; }
 
