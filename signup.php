@@ -38,6 +38,12 @@
             <input type="text" name="input_name" class="form-control" id="name" placeholder="山田 太郎">
           </div>
           <div class="form-group">
+            <label for="address">住所(郵便番号ハイフン無)</label><br>
+            <label for="postal_code">〒</label>
+            <input type="text" name="input_postal" placeholder="〇〇〇〇〇〇〇">
+            <input type="text" name="input_address" class="form-control" id="address" placeholder="〇〇県△△市＊＊＊＊＊＊">
+          </div>
+          <div class="form-group">
             <label for="email">メールアドレス</label>
             <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com">
           </div>
@@ -50,7 +56,7 @@
             <input type="file" name="input_img_name" id="img_name">
           </div>
           <input type="submit" class="btn btn-default" value="確認">
-          <a href="../signin.php" style="float: right; padding-top: 6px;" class="text-success">サインイン</a>
+          <a href="check.php" style="float: right; padding-top: 6px;" class="text-success">サインイン</a>
         </form>
       </div>
 	<footer>
