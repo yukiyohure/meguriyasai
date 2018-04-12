@@ -23,9 +23,9 @@
 				<a class="navbar-brand" href="#">巡り野菜</a>
 				<div class="navbar-collapse collapse">
 	        	<ul class="nav navbar-nav navbar-right">
-			     	<li><a href="#">会員登録</a></li>
-				 		<li><a href="#">ログイン</a></li>
-				 		<li><a href="#">マイページ</a></li>
+			     	<li><a href="signup.php">会員登録</a></li>
+				 		<li><a href="signin.php">ログイン</a></li>
+				 		<li><a href="mypage.php">マイページ</a></li>
 			   		</ul>
        	</div>
   		</div>
@@ -54,16 +54,16 @@
 			</div>
 			<div class="col-md-3 text-center">
 				<p class="text-center">野菜をもらった履歴</p>
-				<a class="btn btn-warning text-center" href="">購入履歴</a>
+				<a class="btn btn-warning text-center" href="buy_data.php">購入履歴</a>
 			</div>
 			<div class="row">
 			<div class="col-md-offset-3 col-md-3 text-center">
 				<p class="text-center">野菜をあげたい方</p>
-				<a class="btn btn-warning text-center" href="" >無料出品</a>
+				<a class="btn btn-warning text-center" href="sell.php" >無料出品</a>
 			</div>
 			<div class="col-md-3 text-center">
 				<p class="text-center">野菜をあげた履歴</p>
-				<a class="btn btn-warning " href="">出品履歴</a>
+				<a class="btn btn-warning " href="sell_data.php">出品履歴</a>
 			</div>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
 	  	<div class="container">
 	      <div class="navbar-text pull=left">
-		    	<p> © meguriyasai 2018.</p>
+		    	<p> © meguriyasai 2018.<a href="mailto:yukiyohure@gmail.com">お問い合わせはこちら</a></p>
 		   	</div>
 		 	</div>
 		</div>
