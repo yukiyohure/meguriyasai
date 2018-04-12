@@ -20,13 +20,13 @@
 				</button>
 				<a class="navbar-brand" href="#">巡り野菜</a>
 				<div class="navbar-collapse collapse">
-	        	<ul class="nav navbar-nav navbar-right">
-			     	<li><a href="#">会員登録</a></li>
-				 		<li><a href="#">ログイン</a></li>
-				 		<li><a href="#">マイページ</a></li>
+	        		<ul class="nav navbar-nav navbar-right">
+			     		<li><a href="signup.php">新規登録</a></li>
+				 		<li><a href="signin.php">サインイン</a></li>
+				 		<!-- <li><a href="mypage.php">マイページ</a></li> -->
 			   		</ul>
-       	</div>
-  		</div>
+       			</div>
+  			</div>
 		</nav>
 <!-- /.navbar -->
 	</header>
@@ -53,7 +53,7 @@
 					</tr>
 					<tr>
 						<th>返品・交換について</th>
-						<td>お客様都合よる商品の返品及び交換は承っておりません。</td>
+						<td>お客様都合よる商品の返品及び交換は承っておりません。但し、当社原因による商品の欠陥・不良があった場合には、返品・交換を承ります。この場合の返品期限は、商品到着後2日以内に、お問い合わせフォームまたはメールにて、その旨を通知するものとし、当社は良品もしくは代替と交換します。</td>
 					</tr>
 				</tbody>
 			</table>
@@ -63,7 +63,7 @@
   	<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
 	  	<div class="container">
 	      <div class="navbar-text pull=left">
-		    	<p> © meguriyasai 2018.</p>
+		    	<p> © meguriyasai 2018.<a href="mailto:yukiyohure@gmail.com">お問い合わせはこちら</a></p>
 		   	</div>
 		 	</div>
 		</div>

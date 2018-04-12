@@ -20,13 +20,14 @@
 				</button>
 				<a class="navbar-brand" href="#">巡り野菜</a>
 				<div class="navbar-collapse collapse">
-	        	<ul class="nav navbar-nav navbar-right">
-			     	<li><a href="#">会員登録</a></li>
-				 		<li><a href="#">ログイン</a></li>
-				 		<li><a href="#">マイページ</a></li>
+	        		<ul class="nav navbar-nav navbar-right">
+			     		<!-- <li><a href="#">新規登録</a></li>
+				 		<li><a href="#">サインイン</a></li> -->
+				 		<li><a href="signout.php">サインアウト</a></li>
+				 		<li><a href="mypage.php">マイページ</a></li>
 			   		</ul>
-       	</div>
-  		</div>
+       			</div>
+  			</div>
 		</nav>
 <!-- /.navbar -->
 	</header>
@@ -37,8 +38,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-offset-4 col-md-4 botton">
-				<a class="btn btn-danger" href="">野菜一覧へ</a>
-				<a class="btn btn-danger" href="">ホーム画面へ</a>
+				<a class="btn btn-danger" href="product.php">野菜一覧へ</a>
+				<a class="btn btn-danger" href="home.php">ホーム画面へ</a>
 			</div>
 		</div>
 	</div>
@@ -47,7 +48,7 @@
   	<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
 	  	<div class="container">
 	      <div class="navbar-text pull=left">
-		    	<p> © meguriyasai 2018.</p>
+		    	<p> © meguriyasai 2018.<a href="mailto:yukiyohure@gmail.com">お問い合わせはこちら</a></p>
 		   	</div>
 		 	</div>
 		</div>

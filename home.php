@@ -22,13 +22,13 @@
 				</button>
 				<a class="navbar-brand" href="#">巡り野菜</a>
 				<div class="navbar-collapse collapse">
-	        	<ul class="nav navbar-nav navbar-right">
-			     	<li><a href="signup.php">会員登録</a></li>
-				 		<li><a href="signin.php">ログイン</a></li>
-				 		<li><a href="mypage.php">マイページ</a></li>
-			   		</ul>
-       	</div>
-  		</div>
+		        	<ul class="nav navbar-nav navbar-right">
+				     	<li><a href="signup.php">新規登録</a></li>
+					 	<li><a href="signin.php">サインイン</a></li>
+					 	<!-- <li><a href="mypage.php">マイページ</a></li> -->
+				   	</ul>
+       			</div>
+  			</div>
 		</nav>
 <!-- /.navbar -->
 	</header>

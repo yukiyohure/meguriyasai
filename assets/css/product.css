@@ -13,9 +13,5 @@ body{
   border-radius: 15px;
   max-width:250px;
   height:200px;
-  padding:10px
-}
-
-.title h2{
-  font-weight:normal;
+  padding:10px;
 }
