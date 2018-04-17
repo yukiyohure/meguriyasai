@@ -18,7 +18,7 @@
 					<span class="icon-bar"> </span>
 					<span class="icon-bar"> </span>
 				</button>
-				<a class="navbar-brand" href="#">巡り野菜</a>
+				<a class="navbar-brand" href="home.php">巡り野菜</a>
 				<div class="navbar-collapse collapse">
 	        		<ul class="nav navbar-nav navbar-right">
 			     		<!-- <li><a href="#">新規登録</a></li>
@@ -53,6 +53,14 @@
 				</div>
 				<div class="col-md-2">
 					<h4>9個</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-offset-4 col-md-2">
+					<h4>取引場所</h4>
+				</div>
+				<div class="col-md-2">
+					<h4>長野県長野市</h4>
 				</div>
 			</div>
 			<div class="row">

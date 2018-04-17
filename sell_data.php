@@ -43,34 +43,34 @@
 		<div class="row">
 			<div class="col-md-offset-2 col-md-4">
 				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/kyabetu.jpg"></a>
+					<img src="assets/photos/kyabetu.jpg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>キャベツ　3玉</h4>
+					<h4>キャベツ　3玉　京都府京都市</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-					<button class="btn btn-danger">出品停止する</button>
+					<button class="btn btn-danger">出品削除する</button>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/okura.jpeg"></a>
+					<img src="assets/photos/okura.jpeg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>オクラ　15本</h4>
+					<h4>オクラ　15本　熊本県天草市</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-					<button class="btn btn-danger">出品停止する</button>
+					<button class="btn btn-danger">出品削除する</button>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-offset-2 col-md-4">
 				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/tamanegi.jpeg"></a>
+					<img src="assets/photos/tamanegi.jpeg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>玉ねぎ　10個</h4>
+					<h4>玉ねぎ　10個　三重県伊勢市</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-					<button class="btn btn-danger">出品停止する</button>
+					<button class="btn btn-danger">出品削除する</button>
 				</div>
 			</div>
 		</div>

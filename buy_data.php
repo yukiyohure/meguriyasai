@@ -74,6 +74,7 @@
 		</div>
 		<div class="text-center">
 			<a class="btn btn-danger" href="#">トップへ戻る</a>
+			<a class="btn btn-danger" href="home.php">ホームへもどる</a>
 		</div>
 	</div>
 	</div>

@@ -41,7 +41,11 @@
 					<div class="form-group">
 						<div>
 							<label for="name">商品名</label>
-							<input class="form-control" type="text" name="name" id="name" placeholder="商品情報を入力してください" />
+							<input class="form-control" type="text" name="name" id="name" placeholder="商品名を入力してください" />
+						</div>
+						<div>
+							<label for="place">受け渡し場所</label>
+							<input class="form-control" type="text" name="amount" id="place" placeholder="例：〇〇県〇〇市付近"/>
 						</div>
 						<div>
 							<label for="amount">個数・数量</label>
@@ -52,7 +56,6 @@
 								<option>玉</option>
 								<option>kg</option>
 								<option>g</option>
-								<option></option>
 							</select>
 						</div>
 						<div>
@@ -64,8 +67,8 @@
 							<input class="form-control" type="file" name="pic" id="pic">
 						</div>
 					</div>
-					<div class="form-group">
-						<button class="form-control btn-danger" type="submit">出品</button>
+					<div class="form-group text-center">
+						<a class="form-control btn-danger" href="sell_confirm.php">出品</a>
 						<!-- <input type="submit" name=""> -->
 					</div>
 				</form>

@@ -44,7 +44,7 @@
 					<a href="buy.php"><img src="assets/photos/daikon.jpg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>大根　10本</h4>
+					<h4>大根　10本　東京都千代田区</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
 				</div>
 			</div>
@@ -53,7 +53,7 @@
 					<a href="buy.php"><img src="assets/photos/kyabetu.jpg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>キャベツ　3玉</h4>
+					<h4>キャベツ　3玉　京都府京都市</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 					<a href="buy.php"><img src="assets/photos/tomato.jpg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>不揃いサイズ　トマト　	10個</h4>
+					<h4>トマト　10個　愛知県西尾市</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
 				</div>
 			</div>
@@ -73,7 +73,7 @@
 					<a href="buy.php"><img src="assets/photos/mikan.jpg"></a>
 				</div>
 				<div class="text text-center">
-					<h4>みかん　2kg</h4>
+					<h4>みかん　2kg　鹿児島県鹿屋市</h4>
 					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
 				</div>
 			</div>
