@@ -14,9 +14,9 @@
 			<div class="container">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="home.php">巡り野菜</a>
 				<div class="navbar-collapse collapse">
@@ -34,13 +34,14 @@
 	</header>
 	<div class="container">
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover">
+			<table class="text-center table table-bordered table-hover">
 				<caption class="text-center text-bold">購入履歴</caption>
 				<thead>
 					<tr>
 						<th>購入日時</th>
 						<th>品名</th>
 						<th>個数・数量</th>
+						<th>出品者とのやりとり</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,26 +49,31 @@
 						<td>2018/07/07</td>
 						<td>茄子</td>
 						<td>12個</td>
+						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 					</tr>
 					<tr>
 						<td>2018/07/01</td>
 						<td>ネギ</td>
 						<td>5本</td>
+						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 					</tr>
 					<tr>
 						<td>2018/06/06</td>
 						<td>大根</td>
 						<td>10本</td>
+						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 					</tr>
 					<tr>
 						<td>2018/04/18</td>
 						<td>オクラ</td>
 						<td>20本</td>
+						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 					</tr>
 					<tr>
 						<td>2018/03/21</td>
 						<td>ジャガイモ</td>
 						<td>18個</td>
+						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 					</tr>
 				</tbody>
 			</table>
