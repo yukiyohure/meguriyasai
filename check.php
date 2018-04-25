@@ -1,3 +1,47 @@
+<?php 
+  session_start();
+  // var_dump($_SESSION);
+  //データベースに接続
+
+  //直接check.phpに訪れられた時はsignup.phpに強制遷移させる
+  if(!isset($_SESSION['register'])){
+    header("Location:signup.php");
+    exit();
+  }
+
+  $h = 'htmlspecialchars';
+
+  require('dbconnect.php');
+
+  $name = $_SESSION['register']['name'];
+  $postal_code = $_SESSION['register']['postal_code'];
+  $address = $_SESSION['register']['address'];
+  $email = $_SESSION['register']['email'];
+  $password = $_SESSION['register']['password'];
+  $pic = $_SESSION['register']['pic'];
+
+  // 登録ボタンが押された時のみ処理するif文
+  if(!empty($_POST)){
+    $sql = 'INSERT INTO users (name,postal_code,address,email,password,pic,created) VALUES(:name,:postal_code,:address,:email,:password,:pic,NOW());';
+    // $sql = 'INSERT INTO `users` SET `name`=?,`postal_code` = ?,`address` = ?,`email` = ?,`password` = ?,`pic` = ?,`created` = NOW()';
+    // $data = array($name,$postal_code,$address,$email,password_hash($password,PASSWORD_DEFAULT),$pic); //⬅︎⬆この組み合わせは数が合わなかったり間違えたりする。︎
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':name',$name,PDO::PARAM_STR);
+    $stmt->bindValue(':postal_code',$postal_code,PDO::PARAM_INT);
+    $stmt->bindValue(':address',$address,PDO::PARAM_STR);
+    $stmt->bindValue(':email',$email,PDO::PARAM_STR);
+    $stmt->bindValue(':password',$password,PDO::PARAM_STR);
+    $stmt->bindValue(':pic',$pic,PDO::PARAM_STR);
+    // $stmt->execute($data);
+    $stmt->execute();
+
+    unset($_SESSION['register']);
+    header('Location:thanks.php');
+    exit();
+
+  }
+
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,18 +80,24 @@
       <div class="col-xs-8 col-xs-offset-2">
         <h2 class="text-center content_header">アカウント情報確認</h2>
         <div class="row">
-          <div class="col-xs-4">
-            <!-- <img src="../user_profile_img/<?php echo htmlspecialchars($img_name); ?>" class="img-responsive img-thumbnail"> -->
-            <img src="assets/photos/ironman.jpg">
+          <div class="col-md-offset-2 col-md-2">
+            <!-- <img src="../user_profile_img/<?php //echo htmlspecialchars($img_name); ?>" class="img-responsive img-thumbnail"> -->
+            <img class="globe" src="user_profile_image/<?php echo $h($pic); ?>">
           </div>
-          <div class="col-xs-8">
+          <div class="col-md-offset-2 col-md-6">
             <div>
               <span>ユーザー名</span>
-              <p class="lead">ゆうき</p>
+              <p class="lead"><?php echo $h($name); ?></p>
+            </div>
+            <div>
+              <span>郵便番号</span>
+              <p class="lead"><?php echo '〒: '.$h($postal_code); ?></p>
+              <span>住所</span>
+              <p class="lead"><?php echo $h($address); ?></p>
             </div>
             <div>
               <span>メールアドレス</span>
-              <p class="lead">test@test.test</p>
+              <p class="lead"><?php echo $h($email); ?></p>
             </div>
             <div>
               <span>パスワード</span>
