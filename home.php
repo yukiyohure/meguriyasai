@@ -20,7 +20,7 @@
 					<span class="icon-bar"> </span>
 					<span class="icon-bar"> </span>
 				</button>
-				<a class="navbar-brand" href="home.php">巡り野菜</a>
+				<a class="navbar-brand" href="#">巡り野菜</a>
 				<div class="navbar-collapse collapse">
 		        	<ul class="nav navbar-nav navbar-right">
 				     	<li><a href="signup.php">新規登録</a></li>

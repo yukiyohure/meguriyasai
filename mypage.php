@@ -43,7 +43,8 @@
 			<h4>名前：ゆうき</h4>
 			<h4>email：teat@test</h4>
 			<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-			<a class="btn btn-danger" href="buy_data.php">購入履歴</a>
+			<a class="btn btn-danger" href="buy_data.php">購入履歴</a><br>
+			<a class="btn btn-danger" href="sales.php">買われた記録</a>
 		</div>
 	</div>
 	<footer>

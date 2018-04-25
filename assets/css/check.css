@@ -14,4 +14,11 @@ body{
 
 .box{
 	margin-top:20px;
+	margin-bottom: 85px;
+}
+
+.globe{
+	border-radius: 10px;
+	max-width:200px;
+	max-height: 200px;
 }
