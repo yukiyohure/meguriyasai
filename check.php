@@ -30,7 +30,7 @@
     $stmt->bindValue(':postal_code',$postal_code,PDO::PARAM_INT);
     $stmt->bindValue(':address',$address,PDO::PARAM_STR);
     $stmt->bindValue(':email',$email,PDO::PARAM_STR);
-    $stmt->bindValue(':password',$password,PDO::PARAM_STR);
+    $stmt->bindValue(':password',password_hash($password,PASSWORD_DEFAULT),PDO::PARAM_STR);
     $stmt->bindValue(':pic',$pic,PDO::PARAM_STR);
     // $stmt->execute($data);
     $stmt->execute();
