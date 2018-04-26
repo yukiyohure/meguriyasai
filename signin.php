@@ -1,6 +1,67 @@
+<?php 
+
+require('dbconnect.php');
+//空チェック
+$errors = array();
+
+$email = '';
+$password = '';
+
+//クッキー情報の存在をチェックし、あれば、POST送信されてきたように$_POST変数へ代入
+  if (isset($_COOKIE['email']) && !empty($_COOKIE['email'])){
+    $_POST["input_email"] = $_COOKIE['email'];
+    $_POST["input_password"] = $_COOKIE['password'];
+    $_POST["save"] = "on";
+  }
+
+if(!empty($_POST)){
+	$email = $_POST["input_email"];
+	$password = $_POST["input_password"];
+
+	//メールアドレスのデータが一致するかどうか検証
+	if (($email != "") && ($password != "")) {
+		//データベースとの照合処理
+		$sql = 'SELECT * FROM users WHERE email = :email';
+		$stmt = $pdo->prepare($sql);
+		$stmt->bindValue(":email",$email,PDO::PARAM_STR);
+		$stmt->execute();
+		$record = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		//メールアドレスでの本人確認
+		if($record == false){
+			$errors["signin"] = 'failed';
+		}
+
+	}else{
+		$errors["signin"] = 'blank';
+	}
+
+	//パスワードのデータが一致するかどうか検証
+	if(password_verify($password,$record["password"])){
+		//SESSION変数にIDを保存
+		$_SESSIOM["id"] = $record["id"];
+
+		//自動ログインが指示されていたら、クッキーにログイン情報を保存
+		if ($_POST["save"] == "on"){
+            //time() 現在時間を1970/01/01 0:00:00から秒数で表した数字
+            //2週間後を有効期限に設定している
+            setcookie('email',$email,time() + 60*60*24*14);
+            setcookie('password',$password,time() + 60*60*24*14);
+        }
+		//timeline.phpに移動
+		header("Location:home.php");
+		exit();
+	}else{
+		$errors["signin"] = "failed";
+	}
+}
+
+ ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+	<meta charset="utf-8">
 	<title></title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -47,11 +108,21 @@
           <div class="form-group">
             <label for="email">メールアドレス</label>
             <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com">
+            <?php if(isset($errors["signin"]) && ($errors["signin"] == "blank")){ ?>
+          	<p class="text-danger">※メールアドレスとパスワードを正しく入力してください</p>
+          	<?php } ?>
+            <?php if ((isset($errors["signin"])) && ($errors["signin"] == 'failed')){ ?>
+            <p class="text-danger">サインインに失敗しました</p>
+            <?php } ?>
           </div>
           <div class="form-group">
             <label for="password">パスワード</label>
             <input type="password" name="input_password" class="form-control" id="password" placeholder="4 ~ 16文字のパスワード">
           </div>
+          <div class="form-group">
+          <label>自動サインイン</label>
+          <input type="checkbox" name="save" value="on" checked>
+      	  </div>
           <input type="submit" class="btn btn-danger" value="ログイン">
           <a href="signup.php" style="float: right; padding-top: 6px;" class="text-success">未登録の方はこちら</a>
         </form>
