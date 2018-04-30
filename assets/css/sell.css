@@ -13,10 +13,16 @@ body{
 }
 
 .title{
-	margin-top:110px;
+	margin-top:60px;
 }
 
 .box{
 	margin-top:20px;
 	margin-bottom:60px;
+}
+
+textarea {
+    resize: vertical;
+    max-height: 500px;
+    min-height: 100px;
 }
