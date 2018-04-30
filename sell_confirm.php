@@ -1,6 +1,43 @@
+<?php 
+session_start();
+//データベースに接続
+require("dbconnect.php");
+//直接sell_cconfirm.phpに訪れられた時はsell.phpに強制遷移させる
+if(!isset($_SESSION["vege"])){
+	header("Location:sell.php");
+	exit();
+}
+
+//sell.phpから送られてきたSESSION関数を簡単な名前の変数に代入
+$name = $_SESSION["vege"]["name"];
+$place = $_SESSION["vege"]["place"];
+$amount = $_SESSION["vege"]["amount"];
+$unit = $_SESSION["vege"]["unit"];
+$description = $_SESSION["vege"]["description"];
+$pic = $_SESSION["vege"]["pic"];
+
+//出品するボタンが押されたら処理する
+if(!empty($_POST)){
+	$sql = "INSERT INTO vegetables (name,trade_place,amount,unit,description,pic,created) VALUES(:name,:trade_place,:amount,:unit,:description,:pic,NOW());";
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(":name",$name,PDO::PARAM_STR);
+	$stmt->bindValue(":trade_place",$place,PDO::PARAM_STR);
+	$stmt->bindValue(":amount",mb_convert_kana($amount,'n'),PDO::PARAM_STR);
+	$stmt->bindValue(":unit",$unit,PDO::PARAM_INT);
+	$stmt->bindValue(":description",$description,PDO::PARAM_STR);
+	$stmt->bindValue(":pic",$pic,PDO::PARAM_STR);
+	$stmt->execute();
+
+	unset($_SESSION["register"]);
+	header("Location:thanks_sell.php");
+	exit();
+}
+
+ ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+	<meta charset="utf-8">
 	<title></title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -40,43 +77,43 @@
 		</div>
 		<div class="confirm_box">
 			<div class="row">
-				<div class="col-md-offset-4 col-md-2">
+				<div class="text-right col-md-offset-4 col-md-2">
 					<h4>商品名：</h4>
 				</div>
 				<div class="col-md-2">
-					<h4>茄子</h4>
+					<h4><?php echo $name; ?></h4>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-offset-4 col-md-2">
+				<div class="text-right col-md-offset-4 col-md-2">
+					<h4>取引場所：</h4>
+				</div>
+				<div class="col-md-2">
+					<h4><?php echo $place; ?></h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="text-right col-md-offset-4 col-md-2">
 					<h4>個数・数量：</h4>
 				</div>
 				<div class="col-md-2">
-					<h4>9個</h4>
+					<h4><?php echo $amount.$unit; ?></h4>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-offset-4 col-md-2">
-					<h4>取引場所</h4>
-				</div>
-				<div class="col-md-2">
-					<h4>長野県長野市</h4>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-4 col-md-2">
+				<div class="text-right col-md-offset-4 col-md-2">
 					<h4>説明・コメント：</h4>
 				</div>
 				<div class="col-md-4">
-					<h4>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</h4>
+					<h4><?php echo $description; ?></h4>
 				</div>
 			</div>
 			<div class="row ">
-				<div class="col-md-offset-4 col-md-2">
+				<div class="text-right col-md-offset-4 col-md-2">
 					<h4>商品画像：</h4>
 				</div>
 				<div class="col-md-4 product_img">
-					<img src="assets/photos/nasubi.jpg">
+					<img src="assets/photos/vegetable_image/<?php echo $pic; ?>">
 				</div>
 			</div>
 			<div class="row btn_zone">
@@ -84,11 +121,21 @@
 					<h4>以上の内容で出品しますか？</h4>
 				</div>
 			</div>
-			<div class="row btn_zone">
+			<!-- <div class="row btn_zone">
 				<div clasS="col-md-offset-3 col-md-6 text-center">
 					<a class="btn btn-danger" href="thanks_sell.php">出品する</a>
 				</div>
+			</div> -->
+			<div class=" col-md-offset-3 col-md-6 text-center">
+				<form method="POST" action="">
+	            <a href="sell.php?reaction=rewrite" class="btn btn-default">&laquo;&nbsp;戻る</a>
+	            <input type="hidden" name="reaction" value="submit">
+	            <input type="submit" class="btn btn-danger" value="出品する">
 			</div>
+			<div class="col-md-offset-3 col-md-6 text-center">
+				<p>※[戻る]を押した場合、商品画像を再選択する必要があります</p>
+			</div>
+			</form>
 		</div>
 	</div>
 	<footer>
