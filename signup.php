@@ -4,13 +4,12 @@
 	//書き直しの処理
 	if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "rewrite") {
 	  $_POST["input_name"] = $_SESSION["register"]["name"];
-	  $_POST["input_postal_code"] = $_SESSION["register"]["postal_code"];
-	  $_POST["input_address"] = $_SESSION["register"]["address"];
+	  $_POST["zip11"] = $_SESSION["register"]["postal_code"];
+	  $_POST["addr11"] = $_SESSION["register"]["address"];
 	  $_POST["input_email"] = $_SESSION["register"]["email"];
 	  $_POST["input_password"] = $_SESSION["register"]["password"];
 
 	  $errors["rewrite"] = true;
-	  // var_dump($_POST);
 	}
 
 	$name ='';
@@ -22,8 +21,8 @@
 	//「確認」ボタンが押された時にバリデーション処理のために要素の中が空白だった場合、errros配列にエラーメッセージを代入
 	if(!empty($_POST)){
 		$name = $_POST["input_name"];
-		$postal_code = $_POST["input_postal_code"];
-		$address = $_POST["input_address"];
+		$postal_code = $_POST["zip11"];
+		$address = $_POST["addr11"];
 		$email = $_POST["input_email"];
 		$password = $_POST["input_password"];
 		$count = strlen($password);//パスワードの文字数を$countに代入
@@ -63,12 +62,12 @@
 			//user_profile_img/.$submit_file_nameと文字連結をすることで
 			//user_profile_img/20170903073829.jpgのような保存先を指定している
 			// move_uploaded_file(filename, destination(目的地))
-			move_uploaded_file($_FILES['pic']['tmp_name'],'user_profile_image/'.$submit_file_name);
+			move_uploaded_file($_FILES['pic']['tmp_name'],'assets/photos/user_profile_image'.$submit_file_name);
 
 			//遷移先でも扱えるようにsession関数にデータを保存
 			$_SESSION['register']['name'] = $_POST['input_name'];
-			$_SESSION['register']['postal_code'] = $_POST['input_postal_code'];
-			$_SESSION['register']['address'] = $_POST['input_address'];
+			$_SESSION['register']['postal_code'] = $_POST['zip11'];
+			$_SESSION['register']['address'] = $_POST['addr11'];
 			$_SESSION['register']['email'] = $_POST['input_email'];
 			$_SESSION['register']['password'] = $_POST['input_password'];
 			//上記3つは$_SESSION['register'] = $_POST;という書き方で一文にまとめることができる
@@ -90,8 +89,16 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
 	<link rel="stylesheet" type="text/css" href="assets/css/signup.css">
+	<!-- 郵便番号照合ajaxのためのJavaScript -->
+	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+	<!-- 普通のjqueryのためのjavaScript -->
+	<script
+	src="http://code.jquery.com/jquery-3.3.1.slim.min.js"
+  	integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  	crossorigin="anonymous"></script>
 </head>
 <body>
+	<script src="assets/js/enter.js"></script>
 	<header>
 <!-- navbar -->
 		<nav class="navbar  navbar-inverse  navbar-fixed-top">
@@ -114,38 +121,42 @@
 		</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="col-xs-8 col-xs-offset-2 box">
+	<div class="col-xs-6 col-xs-offset-3 box">
         <h2 class="text-center content_header">アカウント作成</h2>
         <form method="POST" action="signup.php" enctype="multipart/form-data">
           <div class="form-group">
-            <label for="name">ユーザー名</label>
+            <label for="name">ユーザー名<span class="text-danger">*</span></label>
             <input type="text" name="input_name" class="form-control" id="name" placeholder="山田 太郎" value="<?php echo $h($name);?>">
             <?php if ((isset($errors["name"])) && ($errors["name"] == "blank")){ ?>
             <p class="text-danger">※ユーザー名を入力してください</p>
             <?php } ?>
           </div>
           <div class="form-group">
-            <label for="address">住所(郵便番号ハイフン無)</label><br>
-            <label for="postal_code">〒</label>
-            <input type="text" name="input_postal_code" placeholder="〇〇〇〇〇〇〇" value="<?php echo $h($postal_code);?>">
+            <label for="address">郵便番号(7桁)<span class="text-danger">*</span><a href="http://www.post.japanpost.jp/zipcode/">＜郵便番号がわからないときはこちら＞</a></label><br>
+            <!-- <input type="text" name="input_postal_code" placeholder="〇〇〇〇〇〇〇" value="<?php echo $h($postal_code);?>"> -->
+            <input type="number" id="foo" placeholder="◯◯◯◯◯◯◯" name="zip11" maxlength="8" onKeyUp="AjaxZip3.zip2addr(this,'','addr11','addr11');" value="<?php echo $h($postal_code);?>"/>
             <?php if ((isset($errors["postal_code"])) && ($errors["postal_code"] == "blank")){ ?>
             <p class="text-danger">※郵便番号を入力してください</p>
             <?php } ?>
-            <input type="text" name="input_address" class="form-control" id="address" placeholder="〇〇県△△市＊＊＊＊＊＊" value="<?php echo $h($address);?>">
+            <!-- <input type="text" name="input_address" class="form-control" id="address" placeholder="〇〇県△△市＊＊＊＊＊＊" value="<?php echo $h($address);?>"> -->
+            <div class="form-group">
+            <label for="address">都道府県＋以降の住所<span class="text-danger">*</span></label><br>
+            <input type="text" name="addr11" class="form-control" id="address" placeholder="〇〇県△△市＊＊＊＊＊＊" value="<?php echo $h($address);?>"/>
             <?php if ((isset($errors["address"])) && ($errors["address"] == "blank")){ ?>
             <p class="text-danger">※住所を入力してください</p>
             <?php } ?>
+        	</div>
           </div>
           <div class="form-group">
-            <label for="email">メールアドレス</label>
-            <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com" value="<?php echo $h($email);?>">
+            <label for="email">メールアドレス<span class="text-danger">*</span></label>
+            <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com" value="<?php echo $h($email);?>"/>
             <?php if ((isset($errors["email"])) && ($errors["email"] == "blank")){ ?>
             <p class="text-danger">※メールアドレスを入力してください</p>
             <?php } ?>
           </div>
           <div class="form-group">
-            <label for="password">パスワード(4文字以上)</label>
-            <input type="password" name="input_password" class="form-control" id="password" placeholder="4 ~ 16文字のパスワード">
+            <label for="password">パスワード(4文字以上)<span class="text-danger">*</span></label>
+            <input type="password" name="input_password" class="form-control" id="password" placeholder="4 ~ 16文字のパスワード"/>
             <?php if ((isset($errors["password"])) && ($errors["password"] == "blank")){ ?>
             <p class="text-danger">※パスワードを入力してください</p>
             <?php } ?>
@@ -157,8 +168,8 @@
             <?php } ?>
           </div>
           <div class="form-group">
-            <label for="pic">プロフィール画像</label>
-            <input type="file" name="pic" id="pic" accept="image/*"><!-- accept="image/*"：画像データのみを許容 -->
+            <label for="pic">プロフィール画像<span class="text-danger">*</span></label>
+            <input type="file" class="form-control" name="pic" id="pic" accept="image/*"/><!-- accept="image/*"：画像データのみを許容 -->
             <?php if((isset($errors["pic"])) && ($errors["pic"] == "blank")){ ?>
             <p class="text-danger">※画像を選択してください</p>
             <?php } ?>
