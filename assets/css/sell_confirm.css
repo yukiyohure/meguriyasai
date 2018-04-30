@@ -13,19 +13,19 @@ body{
 }
 
 .title{
-	margin-top:90px;
+	margin-top:75px;
 	margin-bottom:15px;
 }
 
 .product_img img{
-	width:200px;
-	height:150px;
-	border-radius: 10px;
+	max-width:150px;
+	max-height:200px;
+	border-radius: 5px;
 	margin-top:18px;
 }
 
 body{
-	margin-bottom:60px;
+	margin-bottom:80px;
 }
 
 .btn_zone {
