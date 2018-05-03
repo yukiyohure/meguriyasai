@@ -1,3 +1,24 @@
+<?php 
+//SESSION変数を使えるようにする
+session_start();
+//データベースに接続
+require("dbconnect.php");
+
+$sql = 'SELECT * FROM vegetables ORDER BY created DESC;';
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
+//表示部分で使用できるようにタイムラインの情報を格納する配列を用意
+$timeline = array();
+while(1){
+	$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+	if($rec == false){
+		break;
+	}
+	$timeline[] = $rec;
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,48 +58,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="container product">
-		<div class="row">
-			<div class="col-md-offset-2 col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/daikon.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>大根　10本　東京都千代田区</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/kyabetu.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>キャベツ　3玉　京都府京都市</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-offset-2 col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/tomato.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>トマト　10個　愛知県西尾市</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div class="text-center vege_img">
-					<a href="buy.php"><img src="assets/photos/mikan.jpg"></a>
-				</div>
-				<div class="text text-center">
-					<h4>みかん　2kg　鹿児島県鹿屋市</h4>
-					<p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト</p>
-				</div>
-			</div>
-		</div>
-	</div>
+	<?php 
+	foreach($timeline as $each_vege){
+		$count = count($timeline);
+		include("one_product.php");
+	} ?>
 	<footer>
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
 		  	<div class="container">
