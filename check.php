@@ -51,24 +51,18 @@
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar  navbar-inverse  navbar-fixed-top">
-			<div class="container">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-				</button>
-				<a class="navbar-brand" href="home.php">巡り野菜</a>
-				<div class="navbar-collapse collapse">
-	        	<ul class="nav navbar-nav navbar-right">
-  			     	<!-- <li><a href="#">新規登録</a></li>
-  				 		<li><a href="#">サインイン</a></li>
-  				 		<li><a href="#">マイページ</a></li> -->
-			   		</ul>
-       	</div>
-  		</div>
-		</nav>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="home.php">巡り野菜</a>
+    </div><!-- /.container -->
+  </nav>
 <!-- /.navbar -->
 	</header>
 	<body style="margin-top: 60px">
@@ -80,6 +74,7 @@
           <div class="col-md-offset-2 col-md-2">
             <!-- <img src="../user_profile_img/<?php //echo htmlspecialchars($img_name); ?>" class="img-responsive img-thumbnail"> -->
             <img class="globe" src="assets/photos/user_profile_image<?php echo $h($pic); ?>">
+            <?php var_dump($pic); ?>
           </div>
           <div class="col-md-offset-2 col-md-6">
             <div>

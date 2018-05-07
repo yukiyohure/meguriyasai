@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 require('dbconnect.php');
 //空チェック
 $errors = array();
@@ -18,8 +18,10 @@ if(!empty($_POST)){
 	$email = $_POST["input_email"];
 	$password = $_POST["input_password"];
 
-	//メールアドレスのデータが一致するかどうか検証
-	if (($email != "") && ($password != "")) {
+	$_POST["save"] = '';
+
+	//メールアドレスのデータが一致すれば処理を実行
+	if (($email != '') && ($password != '')) {
 		//データベースとの照合処理
 		$sql = 'SELECT * FROM users WHERE email = :email';
 		$stmt = $pdo->prepare($sql);
@@ -32,28 +34,28 @@ if(!empty($_POST)){
 			$errors["signin"] = 'failed';
 		}
 
+		//パスワードのデータが一致するかどうか検証
+		if(password_verify($password,$record["password"])){
+			//一致した場合、SESSION変数にIDを保存(ユーザーがログインしているかの判断材料にするため)
+			$_SESSION["user_id"] = $record["id"];
+
+			//自動ログインが指示されていたら、クッキーにログイン情報を保存
+			if ($_POST["save"] == "on"){
+	            //time() 現在時間を1970/01/01 0:00:00から秒数で表した数字
+	            //2週間後を有効期限に設定している
+	            setcookie('email',$email,time() + 60*60*24*14);
+	            setcookie('password',$password,time() + 60*60*24*14);
+	        }
+			//timeline.phpに移動
+			header("Location:home.php");
+			exit();
+		}else{
+			$errors["signin"] = "failed";
+		}
 	}else{
 		$errors["signin"] = 'blank';
 	}
 
-	//パスワードのデータが一致するかどうか検証
-	if(password_verify($password,$record["password"])){
-		//SESSION変数にIDを保存
-		$_SESSIOM["id"] = $record["id"];
-
-		//自動ログインが指示されていたら、クッキーにログイン情報を保存
-		if ($_POST["save"] == "on"){
-            //time() 現在時間を1970/01/01 0:00:00から秒数で表した数字
-            //2週間後を有効期限に設定している
-            setcookie('email',$email,time() + 60*60*24*14);
-            setcookie('password',$password,time() + 60*60*24*14);
-        }
-		//timeline.phpに移動
-		header("Location:home.php");
-		exit();
-	}else{
-		$errors["signin"] = "failed";
-	}
 }
 
  ?>
@@ -71,24 +73,18 @@ if(!empty($_POST)){
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar  navbar-inverse  navbar-fixed-top">
-			<div class="container">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-				</button>
-				<a class="navbar-brand" href="home.php">巡り野菜</a>
-				<div class="navbar-collapse collapse">
-	        		<ul class="nav navbar-nav navbar-right">
-			     		<!-- <li><a href="#">新規登録</a></li>
-				 		<li><a href="#">サインイン</a></li>
-				 		<li><a href="#">マイページ</a></li> -->
-			   		</ul>
-       			</div>
-  			</div>
-		</nav>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="home.php">巡り野菜</a>
+	  </div><!-- /.container -->
+	</nav>
 <!-- /.navbar -->
 	</header>
 	<html lang="ja">
@@ -102,7 +98,7 @@ if(!empty($_POST)){
 <body style="margin-top: 60px">
   <div class="container">
     <div class="row">
-      <div class="col-xs-8 col-xs-offset-2 ">
+      <div class="col-xs-6 col-xs-offset-3 ">
         <h2 class="text-center content_header">ログイン</h2>
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="form-group">

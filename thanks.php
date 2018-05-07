@@ -1,6 +1,24 @@
+<?php 
+session_start();
+require("dbconnect.php");
+require("signin_check.php");
+
+$h = 'htmlspecialchars';
+// ナビバーに表示するため、サインインしている場合ユーザー情報を取得
+$rec = array();
+if(!empty($_SESSION["user_id"])){
+$sql = 'SELECT * FROM users WHERE :signin_id = id;';
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(":signin_id",$_SESSION["user_id"],PDO::PARAM_INT);
+$stmt->execute();
+$nav = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+ ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+	<meta charset="utf-8">
 	<title></title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -10,24 +28,18 @@
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar  navbar-inverse  navbar-fixed-top">
-			<div class="container">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-				</button>
-				<a class="navbar-brand" href="home.php">巡り野菜</a>
-				<div class="navbar-collapse collapse">
-	        		<ul class="nav navbar-nav navbar-right">
-			     		<!-- <li><a href="#">新規登録</a></li>
-				 		<li><a href="#">サインイン</a></li>
-				 		<li><a href="#">マイページ</a></li> -->
-			   		</ul>
-       			</div>
-  			</div>
-		</nav>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="home.php">巡り野菜</a>
+	  </div><!-- /.container -->
+	</nav>
 <!-- /.navbar -->
 	</header>
 	<div class="box text-center">

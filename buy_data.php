@@ -1,3 +1,6 @@
+<?php 
+require("signin_check.php");
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
