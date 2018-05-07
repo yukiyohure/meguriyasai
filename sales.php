@@ -1,3 +1,53 @@
+<?php 
+session_start();
+require("signin_check.php");
+require("dbconnect.php");
+
+$h = 'htmlspecialchars';
+// ナビバーに表示するため、サインインしている場合ユーザー情報を取得
+$rec = array();
+if(!empty($_SESSION["user_id"])){
+$sql = 'SELECT * FROM users WHERE :signin_id = id;';
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(":signin_id",$_SESSION["user_id"],PDO::PARAM_INT);
+$stmt->execute();
+$nav = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+$sql = 'SELECT `vegetables`.`user_id` FROM vegetables INNER JOIN buy_data ON `vegetables`.`id` = `buy_data`.`vegetable_id`';
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
+$vege_id = array();
+while(1){
+	$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+	if($rec == false){
+		break;
+	}
+	$vege_id = $rec;
+}
+
+if($vege_id["user_id"] == $_SESSION["user_id"]){
+	// $sql = 'SELECT * FROM vegetables WHERE :user_id = user_id ORDER BY `update` DESC';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->bindValue(':user_id',$vege_id["user_id"],PDO::PARAM_INT);
+	// $stmt->execute();
+	// $sale = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	// $sql = 'SELECT buy_day FROM buy_data WHERE :user_id = user_id ORDER BY `buy_day` DESC';
+	// $stmt = $pdo->prepare($sql);
+	// $stmt->bindValue(':user_id',$vege_id["user_id"],PDO::PARAM_INT);
+	// $stmt->execute();
+	// $sale = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	$sql = 'SELECT `vegetables`.`name`,`vegetables`.`amount`,`vegetables`.`unit`,`buy_data`.`buy_day` FROM vegetables INNER JOIN buy_data ON :user_id = `vegetables`.`user_id`';
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(':user_id',$_SESSION["user_id"],PDO::PARAM_INT);
+	$stmt->execute();
+	
+}
+// var_dump($sale);
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,26 +60,43 @@
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar  navbar-inverse  navbar-fixed-top">
-			<div class="container">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="home.php">巡り野菜</a>
-				<div class="navbar-collapse collapse">
-		        	<ul class="nav navbar-nav navbar-right">
-				     		<!-- <li><a href="#">新規登録</a></li>
-					 		<li><a href="#">サインイン</a></li> -->
-					 		<li><a href="signout.php">サインアウト</a></li>
-					 		<li><a href="mypage.php">マイページ</a></li>
-					 		<li><a href="product.php">野菜一覧へ</a></li>
-			   		</ul>
-       			</div>
-  			</div>
-		</nav>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="home.php">巡り野菜</a>
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <?php if(isset($_SESSION["user_id"])){ ?>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="home.php">HOME</a></li>
+	        <li class="dropdown">
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="18" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="mypage.php">マイページ</a></li>
+	            <li><a href="sell.php">野菜出品</a></li>
+	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="sell_data.php">出品履歴</a></li>
+	            <li><a href="sales.php">購入された履歴</a></li>
+	            <li><a href="signout.php">サインアウト</a></li>
+	          </ul>
+	        </li>
+	       </ul>
+	    <?php }else{ ?>
+	    	<ul class="nav navbar-nav navbar-right">
+	          	<li><a href="signup.php">新規登録</a></li>
+	          	<li><a href="signin.php">サインイン</a></li>
+	          	<li><a href="product.php">商品一覧</a></li>
+	        </ul>
+	    <?php } ?>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container -->
+	</nav>
 <!-- /.navbar -->
 	</header>
 	<div class="container">
@@ -38,43 +105,21 @@
 				<caption class="text-center text-bold">買われた記録</caption>
 				<thead>
 					<tr>
-						<th>購入日時</th>
+						<th>購入された日時</th>
 						<th>品名</th>
 						<th>個数・数量</th>
 						<th>購入者とのやりとり</th>
 					</tr>
 				</thead>
 				<tbody>
+					<?php while($sale = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
 					<tr>
-						<td>2018/09/24</td>
-						<td>白菜</td>
-						<td>12個</td>
+						<td><?php echo $sale["buy_day"]; ?></td>
+						<td><?php echo $sale["name"]; ?></td>
+						<td><?php echo $sale["amount"].$sale["unit"]; ?></td>
 						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 					</tr>
-					<tr>
-						<td>2018/06/01</td>
-						<td>柿</td>
-						<td>5本</td>
-						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
-					</tr>
-					<tr>
-						<td>2018/04/21</td>
-						<td>大根</td>
-						<td>10本</td>
-						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
-					</tr>
-					<tr>
-						<td>2018/04/18</td>
-						<td>オクラ</td>
-						<td>20本</td>
-						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
-					</tr>
-					<tr>
-						<td>2018/03/21</td>
-						<td>ジャガイモ</td>
-						<td>18個</td>
-						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
-					</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>
