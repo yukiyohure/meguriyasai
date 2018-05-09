@@ -5,7 +5,7 @@ require("dbconnect.php");
 
 $h = 'htmlspecialchars';
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
-$rec = array();
+$nav = array();
 if(!empty($_SESSION["user_id"])){
 $sql = 'SELECT * FROM users WHERE :signin_id = id;';
 $stmt = $pdo->prepare($sql);
@@ -14,39 +14,13 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT `vegetables`.`user_id` FROM vegetables INNER JOIN buy_data ON `vegetables`.`id` = `buy_data`.`vegetable_id`';
+//購入された野菜の出品者のidを取得
+$sql = 'SELECT * FROM `vegetables` INNER JOIN `buy_data` ON `vegetables`.`id` = `buy_data`.`vegetable_id` WHERE `vegetables`.`user_id` = :signed_user_id ORDER BY `buy_data`.`buy_day` DESC';
 $stmt = $pdo->prepare($sql);
+$stmt->bindValue(':signed_user_id',$_SESSION["user_id"],PDO::PARAM_INT);
 $stmt->execute();
 
-$vege_id = array();
-while(1){
-	$rec = $stmt->fetch(PDO::FETCH_ASSOC);
-	if($rec == false){
-		break;
-	}
-	$vege_id = $rec;
-}
-
-if($vege_id["user_id"] == $_SESSION["user_id"]){
-	// $sql = 'SELECT * FROM vegetables WHERE :user_id = user_id ORDER BY `update` DESC';
-	// $stmt = $pdo->prepare($sql);
-	// $stmt->bindValue(':user_id',$vege_id["user_id"],PDO::PARAM_INT);
-	// $stmt->execute();
-	// $sale = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	// $sql = 'SELECT buy_day FROM buy_data WHERE :user_id = user_id ORDER BY `buy_day` DESC';
-	// $stmt = $pdo->prepare($sql);
-	// $stmt->bindValue(':user_id',$vege_id["user_id"],PDO::PARAM_INT);
-	// $stmt->execute();
-	// $sale = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	$sql = 'SELECT `vegetables`.`name`,`vegetables`.`amount`,`vegetables`.`unit`,`buy_data`.`buy_day` FROM vegetables INNER JOIN buy_data ON :user_id = `vegetables`.`user_id`';
-	$stmt = $pdo->prepare($sql);
-	$stmt->bindValue(':user_id',$_SESSION["user_id"],PDO::PARAM_INT);
-	$stmt->execute();
-	
-}
-// var_dump($sale);
+$sale = array();
  ?>
 <!DOCTYPE html>
 <html>
@@ -76,7 +50,7 @@ if($vege_id["user_id"] == $_SESSION["user_id"]){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="home.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="18" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
@@ -89,7 +63,7 @@ if($vege_id["user_id"] == $_SESSION["user_id"]){
 	       </ul>
 	    <?php }else{ ?>
 	    	<ul class="nav navbar-nav navbar-right">
-	          	<li><a href="signup.php">新規登録</a></li>
+	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
 	          	<li><a href="product.php">商品一覧</a></li>
 	        </ul>
@@ -99,8 +73,8 @@ if($vege_id["user_id"] == $_SESSION["user_id"]){
 	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="container">
-		<div class="table-responsive">
+	<div class="main row col-md-offset-2 col-md-8">
+		<div class="">
 			<table class="text-center table table-bordered table-hover">
 				<caption class="text-center text-bold">買われた記録</caption>
 				<thead>
@@ -112,14 +86,14 @@ if($vege_id["user_id"] == $_SESSION["user_id"]){
 					</tr>
 				</thead>
 				<tbody>
-					<?php while($sale = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
-					<tr>
-						<td><?php echo $sale["buy_day"]; ?></td>
-						<td><?php echo $sale["name"]; ?></td>
-						<td><?php echo $sale["amount"].$sale["unit"]; ?></td>
-						<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
-					</tr>
-					<?php } ?>
+					<?php while($sale = $stmt->fetch(PDO::FETCH_ASSOC)){ ?> 
+						<tr>
+							<td><?php echo $sale["buy_day"]; ?></td>
+							<td><?php echo $sale["name"]; ?></td>
+							<td><?php echo $sale["amount"].$sale["unit"]; ?></td>
+							<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
+						</tr>
+					<?php }?>
 				</tbody>
 			</table>
 		</div>
@@ -127,7 +101,6 @@ if($vege_id["user_id"] == $_SESSION["user_id"]){
 			<a class="btn btn-danger" href="#">トップへ戻る</a>
 			<a class="btn btn-danger" href="home.php">ホームへもどる</a>
 		</div>
-	</div>
 	</div>
 	<footer>
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
@@ -144,7 +117,6 @@ if($vege_id["user_id"] == $_SESSION["user_id"]){
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
