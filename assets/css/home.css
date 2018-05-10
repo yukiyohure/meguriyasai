@@ -31,11 +31,14 @@ body{
 /*./cover*/
 /*text*/
 .text-area{
-	margin-bottom:120px;
+	margin-bottom:20px;
+}
+
+.choice-area{
+	margin-bottom: 20px;
+}
+
+.main{
+	margin-bottom: 80px;
 }
 /*./text*/
-
-
-
-
-

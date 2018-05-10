@@ -14,7 +14,7 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-//購入された野菜の出品者のidを取得
+//購入された野菜の情報を取得
 $sql = 'SELECT * FROM `vegetables` INNER JOIN `buy_data` ON `vegetables`.`id` = `buy_data`.`vegetable_id` WHERE `vegetables`.`user_id` = :signed_user_id ORDER BY `buy_data`.`buy_day` DESC';
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':signed_user_id',$_SESSION["user_id"],PDO::PARAM_INT);
@@ -23,9 +23,10 @@ $stmt->execute();
 $sale = array();
  ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-	<title></title>
+	<meta charset="utf-8">
+	<title>購入された記録</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -34,7 +35,7 @@ $sale = array();
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -53,9 +54,10 @@ $sale = array();
 	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
+	            <li><a href="purchase_history.php">購入履歴</a></li>
 	            <li><a href="sales.php">購入された履歴</a></li>
 	            <li><a href="signout.php">サインアウト</a></li>
 	          </ul>
@@ -76,7 +78,8 @@ $sale = array();
 	<div class="main row col-md-offset-2 col-md-8">
 		<div class="">
 			<table class="text-center table table-bordered table-hover">
-				<caption class="text-center text-bold">買われた記録</caption>
+				<!-- <caption class="text-center text-bold">買われた記録</caption> -->
+				<h4 class="text-center">購入された記録</h4>
 				<thead>
 					<tr>
 						<th>購入された日時</th>
@@ -88,9 +91,9 @@ $sale = array();
 				<tbody>
 					<?php while($sale = $stmt->fetch(PDO::FETCH_ASSOC)){ ?> 
 						<tr>
-							<td><?php echo $sale["buy_day"]; ?></td>
-							<td><?php echo $sale["name"]; ?></td>
-							<td><?php echo $sale["amount"].$sale["unit"]; ?></td>
+							<td><?php echo $h($sale["buy_day"]); ?></td>
+							<td><?php echo $h($sale["name"]); ?></td>
+							<td><?php echo $h($sale["amount"]).$h($sale["unit"]); ?></td>
 							<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
 						</tr>
 					<?php }?>

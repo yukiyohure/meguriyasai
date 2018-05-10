@@ -7,7 +7,7 @@ require("dbconnect.php");
 $h = 'htmlspecialchars';
 
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
-$rec = array();
+$nav = array();
 if(!empty($_SESSION["user_id"])){
 $sql = 'SELECT * FROM users WHERE :signin_id = id;';
 $stmt = $pdo->prepare($sql);
@@ -16,9 +16,20 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM vegetables ORDER BY created DESC;';
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
+//出品された野菜を表示するためにデータを取得。
+if(!empty($_SESSION["user_id"])){
+	//ただし、サインインしている場合は自分が出品したものは表示されないようにする。
+	$sql = 'SELECT * FROM vegetables WHERE user_id != :user_id ORDER BY created DESC;';
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
+	$stmt->execute();
+}else{
+	$sql = 'SELECT * FROM vegetables ORDER BY created DESC;';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute();
+}
+
+
 
 //表示部分で使用できるようにタイムラインの情報を格納する配列を用意
 $timeline = array();
@@ -27,14 +38,18 @@ while(1){
 	if($rec == false){
 		break;
 	}
+	if($rec["display_flag"] == '1'){
+		continue;
+	}
 	$timeline[] = $rec;
 }
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-	<title></title>
+	<meta charset="utf-8">
+	<title>商品一覧</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -59,12 +74,13 @@ while(1){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="home.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="18" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
+	            <li><a href="purchase_history.php">購入履歴</a></li>
 	            <li><a href="sales.php">購入された履歴</a></li>
 	            <li><a href="signout.php">サインアウト</a></li>
 	          </ul>
@@ -72,7 +88,7 @@ while(1){
 	       </ul>
 	    <?php }else{ ?>
 	    	<ul class="nav navbar-nav navbar-right">
-	          	<li><a href="signup.php">新規登録</a></li>
+	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
 	          	<li><a href="product.php">商品一覧</a></li>
 	        </ul>
@@ -89,7 +105,7 @@ while(1){
 			</div>
 		</div>
 	</div>
-	<div class="main">
+	<div>
 	<?php
 	// var_dump($timeline);
 	$i = 0;
@@ -113,7 +129,6 @@ while(1){
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

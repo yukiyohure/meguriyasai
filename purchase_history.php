@@ -1,6 +1,7 @@
 <?php 
 session_start();
 require("dbconnect.php");
+require("signin_check.php");
 
 $h = 'htmlspecialchars';
 
@@ -11,23 +12,27 @@ $sql = 'SELECT * FROM users WHERE :signin_id = id;';
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(":signin_id",$_SESSION["user_id"],PDO::PARAM_INT);
 $stmt->execute();
-$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+$nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+//購入した野菜の情報を取得
+$sql = 'SELECT * FROM `vegetables` INNER JOIN `buy_data` ON `vegetables`.`id` = `buy_data`.`vegetable_id` WHERE `buy_data`.`user_id` = :signed_user_id ORDER BY `buy_data`.`buy_day` DESC';
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':signed_user_id',$_SESSION["user_id"],PDO::PARAM_INT);
+$stmt->execute();
+
+$sale = array();
  ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset="utf-8">
-	<title>ホーム</title>
+	<title>購入履歴</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<!-- bootstrap -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/home.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/purchase_history.css">
 </head>
 <body>
-	<header>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -44,7 +49,7 @@ $rec = $stmt->fetch(PDO::FETCH_ASSOC);
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="home.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($rec["pic"]); ?>" width="28" class="img-circle"><?php echo $h($rec["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
 	            <li><a href="product.php">商品一覧</a></li>
@@ -58,7 +63,6 @@ $rec = $stmt->fetch(PDO::FETCH_ASSOC);
 	       </ul>
 	    <?php }else{ ?>
 	    	<ul class="nav navbar-nav navbar-right">
-	    		<li><a href="home.php">HOME</a></li>
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
 	          	<li><a href="product.php">商品一覧</a></li>
@@ -67,45 +71,36 @@ $rec = $stmt->fetch(PDO::FETCH_ASSOC);
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container -->
 	</nav>
-<!-- /.navbar -->
-</header>
-<!-- cover -->
-	 <div class="jumbotron">
-      <div class="container">
-        <h1 class="text-center title">巡り野菜</h1>
-      </div>
-    </div>
-<!-- ./cover -->
-<!-- text -->
-	<div class="main container">
-		<div class="row">
-			<div class="text-area col-md-offset-3 col-md-6">
-				<h2 class="text-center">捨てられる野菜を救おう</h2>
-				<p class="text-center">毎日、食べる事ができるにも関わらず野菜たちが捨てられています。消費しきれなかったり沢山収穫し過ぎたり・・・。<br>そんな野菜たちを救うためのサイトです。<br>プロの農家さんでなくても、個人で家庭菜園されている方、野菜が余っている方でも気軽に野菜をあげる事ができます。</p>
-			</div>
+	<div class="main row col-md-offset-2 col-md-8">
+		<div class="">
+			<table class="text-center table table-bordered table-hover">
+				<!-- <caption class="text-center text-bold">買われた記録</caption> -->
+				<h4 class="text-center">購入履歴</h4>
+				<thead>
+					<tr>
+						<th>購入した日時</th>
+						<th>品名</th>
+						<th>個数・数量</th>
+						<th>出品者とのやりとり</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php while($sale = $stmt->fetch(PDO::FETCH_ASSOC)){ ?> 
+						<tr>
+							<td><?php echo $h($sale["buy_day"]); ?></td>
+							<td><?php echo $h($sale["name"]); ?></td>
+							<td><?php echo $h($sale["amount"]).$h($sale["unit"]); ?></td>
+							<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
+						</tr>
+					<?php }?>
+				</tbody>
+			</table>
 		</div>
-		<div class="choice-area row">
-			<div class="col-md-offset-3 col-md-3 text-center">
-				<p class="text-center">野菜が欲しい方</p>
-				<a class="btn btn-warning text-center" href="product.php" >野菜一覧</a>
-			</div>
-			<div class="col-md-3 text-center">
-				<p class="text-center">野菜をもらった履歴</p>
-				<a class="btn btn-warning text-center" href="purchase_history.php">購入履歴</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-offset-3 col-md-3 text-center">
-				<p class="text-center">野菜をあげたい方</p>
-				<a class="btn btn-warning text-center" href="sell.php" >無料出品</a>
-			</div>
-			<div class="col-md-3 text-center">
-				<p class="text-center">野菜をあげた履歴</p>
-				<a class="btn btn-warning " href="sell_data.php">出品履歴</a>
-			</div>
+		<div class="text-center">
+			<a class="btn btn-danger" href="#">トップへ戻る</a>
+			<a class="btn btn-danger" href="home.php">ホームへもどる</a>
 		</div>
 	</div>
-<!-- ./text -->
 	<footer>
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
 		  	<div class="container">
@@ -122,8 +117,6 @@ $rec = $stmt->fetch(PDO::FETCH_ASSOC);
 		</div>
 	</footer>
 <!-- navbar -->
-
-<!-- bootstrap -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->

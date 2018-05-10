@@ -1,6 +1,8 @@
 <?php 
 	session_start();
+	require("dbconnect.php");
 	$h = 'htmlspecialchars';
+
 	//書き直しの処理
 	if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "rewrite") {
 	  $_POST["input_name"] = $_SESSION["register"]["name"];
@@ -29,13 +31,30 @@
 
 		if ($name == "") {
 			$errors["name"] = "blank";
-		}if ($postal_code == "") {
+		}
+		if ($postal_code == "") {
 			$errors["postal_code"] = "blank";
-		}if ($address == "") {
+		}
+		if ($address == "") {
 			$errors["address"] = "blank";
-		}if ($email == "") {
+		}
+		if ($email == "") {
 			$errors["email"] = "blank";
-		}if ($password == "") {
+		}else{
+		    //重複エラーチェック
+		    //入力されたemailと合致するデータの件数を取得
+		    $sql = "SELECT COUNT(*) as cnt FROM users WHERE email = :email;";
+		    $stmt = $pdo -> prepare($sql);
+		    $stmt->bindValue(":email",$email,PDO::PARAM_STR);
+		    $stmt->execute();
+			$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		    //1件以上であれば、重複エラーの印を保存
+		    if ($rec["cnt"] > 0) {
+		        $errors["email"] = "deplicate";
+		    }
+		}
+		if ($password == "") {
 			$errors["password"] = "blank";
 		}elseif($count < 4){//パスワードの文字数が４文字未満だった場合errors配列にエラーメッセージを代入
 			$errors["password"] = "length";
@@ -62,7 +81,7 @@
 			//user_profile_img/.$submit_file_nameと文字連結をすることで
 			//user_profile_img/20170903073829.jpgのような保存先を指定している
 			// move_uploaded_file(filename, destination(目的地))
-			move_uploaded_file($_FILES['pic']['tmp_name'],'assets/photos/user_profile_image'.$submit_file_name);
+			move_uploaded_file($_FILES['pic']['tmp_name'],'assets/photos/user_profile_image/'.$submit_file_name);
 
 			//遷移先でも扱えるようにsession関数にデータを保存
 			$_SESSION['register']['name'] = $_POST['input_name'];
@@ -82,9 +101,10 @@
 
  ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-	<title></title>
+	<meta charset="utf-8">
+	<title>サインアップ</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -104,19 +124,12 @@
 		<nav class="navbar  navbar-inverse  navbar-fixed-top">
 			<div class="container">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="home.php">巡り野菜</a>
-				<div class="navbar-collapse collapse">
-	        		<ul class="nav navbar-nav navbar-right">
-			     		<li><a href="#">新規登録</a></li>
-				 		<li><a href="#">サインイン</a></li>
-				 		<li><a href="#">マイページ</a></li>
-			   		</ul>
-       			</div>
   			</div>
 		</nav>
 <!-- /.navbar -->
@@ -132,13 +145,11 @@
             <?php } ?>
           </div>
           <div class="form-group">
-            <label for="address">郵便番号(7桁)<span class="text-danger">*</span><a href="http://www.post.japanpost.jp/zipcode/">＜郵便番号がわからないときはこちら＞</a></label><br>
-            <!-- <input type="text" name="input_postal_code" placeholder="〇〇〇〇〇〇〇" value="<?php echo $h($postal_code);?>"> -->
+            <label for="address">郵便番号(7桁)<span class="text-danger">*</span><a target="_blank" href="http://www.post.japanpost.jp/zipcode/">＜郵便番号がわからないときはこちら＞</a></label><br>
             <input type="number" id="foo" placeholder="◯◯◯◯◯◯◯" name="zip11" maxlength="8" onKeyUp="AjaxZip3.zip2addr(this,'','addr11','addr11');" value="<?php echo $h($postal_code);?>"/>
             <?php if ((isset($errors["postal_code"])) && ($errors["postal_code"] == "blank")){ ?>
             <p class="text-danger">※郵便番号を入力してください</p>
             <?php } ?>
-            <!-- <input type="text" name="input_address" class="form-control" id="address" placeholder="〇〇県△△市＊＊＊＊＊＊" value="<?php echo $h($address);?>"> -->
             <div class="form-group">
             <label for="address">都道府県＋以降の住所<span class="text-danger">*</span></label><br>
             <input type="text" name="addr11" class="form-control" id="address" placeholder="〇〇県△△市＊＊＊＊＊＊" value="<?php echo $h($address);?>"/>
@@ -152,6 +163,9 @@
             <input type="email" name="input_email" class="form-control" id="email" placeholder="example@gmail.com" value="<?php echo $h($email);?>"/>
             <?php if ((isset($errors["email"])) && ($errors["email"] == "blank")){ ?>
             <p class="text-danger">※メールアドレスを入力してください</p>
+            <?php } ?>
+            <?php if((isset($errors["email"])) && ($errors["email"] == 'deplicate')){ ?>
+              <p class="text-danger"> 入力されたメールアドレスは既に使用されています</p>
             <?php } ?>
           </div>
           <div class="form-group">
@@ -193,7 +207,6 @@
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

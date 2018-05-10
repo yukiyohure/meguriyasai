@@ -11,7 +11,7 @@ if(!isset($_SESSION["vege"])){
 
 $h = 'htmlspecialchars';
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
-$rec = array();
+$nav = array();
 if(!empty($_SESSION["user_id"])){
 $sql = 'SELECT * FROM users WHERE :signin_id = id;';
 $stmt = $pdo->prepare($sql);
@@ -51,7 +51,7 @@ if(!empty($_POST)){
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>出品内容確認</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -76,12 +76,13 @@ if(!empty($_POST)){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="home.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="18" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
+	            <li><a href="purchase_history.php">購入履歴</a></li>
 	            <li><a href="sales.php">購入された履歴</a></li>
 	            <li><a href="signout.php">サインアウト</a></li>
 	          </ul>
@@ -89,7 +90,7 @@ if(!empty($_POST)){
 	       </ul>
 	    <?php }else{ ?>
 	    	<ul class="nav navbar-nav navbar-right">
-	          	<li><a href="signup.php">新規登録</a></li>
+	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
 	          	<li><a href="product.php">商品一覧</a></li>
 	        </ul>
@@ -111,7 +112,7 @@ if(!empty($_POST)){
 					<h4>商品名：</h4>
 				</div>
 				<div class="col-md-2">
-					<h4><?php echo $name; ?></h4>
+					<h4><?php echo $h($name); ?></h4>
 				</div>
 			</div>
 			<div class="row">
@@ -119,7 +120,7 @@ if(!empty($_POST)){
 					<h4>取引場所：</h4>
 				</div>
 				<div class="col-md-2">
-					<h4><?php echo $place; ?></h4>
+					<h4><?php echo $h($place); ?></h4>
 				</div>
 			</div>
 			<div class="row">
@@ -127,7 +128,7 @@ if(!empty($_POST)){
 					<h4>個数・数量：</h4>
 				</div>
 				<div class="col-md-2">
-					<h4><?php echo $amount.$unit; ?></h4>
+					<h4><?php echo $h($amount).$h($unit); ?></h4>
 				</div>
 			</div>
 			<div class="row">
@@ -135,7 +136,7 @@ if(!empty($_POST)){
 					<h4>説明・コメント：</h4>
 				</div>
 				<div class="col-md-4">
-					<h4><?php echo $description; ?></h4>
+					<h4><?php echo $h($description); ?></h4>
 				</div>
 			</div>
 			<div class="row ">
@@ -143,7 +144,7 @@ if(!empty($_POST)){
 					<h4>商品画像：</h4>
 				</div>
 				<div class="col-md-4 product_img">
-					<img src="assets/photos/vegetable_image/<?php echo $pic; ?>">
+					<img src="assets/photos/vegetable_image/<?php echo $h($pic); ?>">
 				</div>
 			</div>
 			<div class="row btn_zone">
@@ -183,7 +184,6 @@ if(!empty($_POST)){
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

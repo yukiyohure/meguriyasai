@@ -10,15 +10,15 @@ li{
 
 body{
 	background-color: #FFFACD;
+	margin-bottom: 90px;
 }
 
 .title{
-	margin-top:60px;
+	margin-top:75px;
 }
 
 .box{
 	margin-top:20px;
-	margin-bottom:60px;
 }
 
 textarea {

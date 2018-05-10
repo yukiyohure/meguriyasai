@@ -64,13 +64,15 @@ if(!empty($_POST)){
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>サインイン</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
 	<link rel="stylesheet" type="text/css" href="assets/css/signin.css">
+	<script src="http://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
 </head>
 <body>
+	<script src="assets/js/enter.js"></script>
 	<header>
 <!-- navbar -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -124,12 +126,12 @@ if(!empty($_POST)){
         </form>
       </div>
     </div>
-  </div>
+  </div><!-- 
   <script src="assets/js/jquery-3.1.1.js"></script>
   <script src="assets/js/jquery-migrate-1.4.1.js"></script>
   <script src="assets/js/bootstrap.js"></script>
 </body>
-</html>
+</html> -->
 	<footer>
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
 		  	<div class="container">
@@ -145,7 +147,6 @@ if(!empty($_POST)){
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

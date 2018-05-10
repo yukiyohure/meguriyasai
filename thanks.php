@@ -1,11 +1,11 @@
 <?php 
 session_start();
 require("dbconnect.php");
-require("signin_check.php");
+// require("signin_check.php");
 
 $h = 'htmlspecialchars';
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
-$rec = array();
+$nav = array();
 if(!empty($_SESSION["user_id"])){
 $sql = 'SELECT * FROM users WHERE :signin_id = id;';
 $stmt = $pdo->prepare($sql);
@@ -19,7 +19,7 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>登録ありがとうございます</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -70,7 +70,6 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

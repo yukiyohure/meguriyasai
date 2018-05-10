@@ -40,9 +40,10 @@
 
  ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-	<title></title>
+  <meta charset="utf-8">
+	<title>登録内容確認</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -73,8 +74,7 @@
         <div class="row">
           <div class="col-md-offset-2 col-md-2">
             <!-- <img src="../user_profile_img/<?php //echo htmlspecialchars($img_name); ?>" class="img-responsive img-thumbnail"> -->
-            <img class="globe" src="assets/photos/user_profile_image<?php echo $h($pic); ?>">
-            <?php var_dump($pic); ?>
+            <img class="globe" src="assets/photos/user_profile_image/<?php echo $h($pic); ?>">
           </div>
           <div class="col-md-offset-2 col-md-6">
             <div>
@@ -120,7 +120,6 @@
       </div>
     </div>
   </footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>

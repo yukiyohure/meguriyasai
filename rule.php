@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-	<title></title>
+	<meta charset="utf-8">
+	<title>特定商標取引表示</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -10,35 +11,54 @@
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar  navbar-inverse  navbar-fixed-top">
-			<div class="container">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only"> Toggle navigation</span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-					<span class="icon-bar"> </span>
-				</button>
-				<a class="navbar-brand" href="home.php">巡り野菜</a>
-				<div class="navbar-collapse collapse">
-	        		<ul class="nav navbar-nav navbar-right">
-			     		<li><a href="signup.php">新規登録</a></li>
-				 		<li><a href="signin.php">サインイン</a></li>
-				 		<li><a href="mypage.php">マイページ</a></li>
-				 		<li><a href="product.php">野菜一覧へ</a></li>
-			   		</ul>
-       			</div>
-  			</div>
-		</nav>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="home.php">巡り野菜</a>
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <?php if(isset($_SESSION["user_id"])){ ?>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="home.php">HOME</a></li>
+	        <li class="dropdown">
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <ul class="dropdown-menu">
+	            <li><a href="mypage.php">マイページ</a></li>
+	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="sell.php">野菜出品</a></li>
+	            <li><a href="sell_data.php">出品履歴</a></li>
+	            <li><a href="purchase_history.php">購入履歴</a></li>
+	            <li><a href="sales.php">購入された履歴</a></li>
+	            <li><a href="signout.php">サインアウト</a></li>
+	          </ul>
+	        </li>
+	       </ul>
+	    <?php }else{ ?>
+	    	<ul class="nav navbar-nav navbar-right">
+	          	<li><a href="signup.php">サインアップ</a></li>
+	          	<li><a href="signin.php">サインイン</a></li>
+	          	<li><a href="product.php">商品一覧</a></li>
+	        </ul>
+	    <?php } ?>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container -->
+	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="row box">
+	<div class="container box">
 		<h3 class="text-center">特定商標取引</h3>
-		<div class="col-md-offset-4 col-md-4">
-			<table class="table ">
+		<div class="table-responsive col-md-offset-3 col-md-6">
+			<table class="stand text-center table table-bordered table-hover">
 				<tbody>
 					<tr>
 						<th>事業主</th>
-						<td>柴田祐輝<br>〒863-2424<br>熊本県天草市五和町手野一丁目1714<br>080-8584-1964</td>
+						<td>柴田祐輝<br>〒000-0000<br>テキストテキストテキストテキストテキスト<br>123-457-8900</td>
 					</tr>
 					<tr>
 						<th>商品以外にかかる料金</th>
@@ -75,7 +95,6 @@
 		 	</div>
 		</div>
 	</footer>
-
 <!-- navbar -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
