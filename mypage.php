@@ -32,7 +32,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 </head>
 <body>
 	<header>
-<!-- navbar -->
+	<!-- /navbar -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -78,10 +78,12 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 		<h3>マイページ</h3>
 		</div>
 		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
+			<div class="col-md-offset-4 col-md-4 text-center">
 				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
 			</div>
-			<div class="col-md-2 text-center">
+		</div>
+		<div class="row">
+			<div class="col-md-offset-4 col-md-4 text-center">
 				<h4>名前：<?php echo $h($user["name"]); ?></h4>
 				<h4>email：<?php echo $h($user["email"]); ?></h4>
 				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>

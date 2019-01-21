@@ -148,7 +148,7 @@ if(!empty($_POST)){
 		</div>
 		<div class="row box">
 			<div class="col-md-offset-3 col-md-6">
-				<form action="sell.php" enctype="multipart/form-data" method="post" enctype="multipart/form-data">
+				<form action="sell.php" enctype="multipart/form-data" method="post">
 					<div class="form-group">
 						<div class="form-group">
 							<label for="name">商品名<span class="text-danger">*</span></label>
