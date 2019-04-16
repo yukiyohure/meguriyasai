@@ -43,6 +43,7 @@ if(!empty($_POST)){
 			if ($_POST["save"] == "on"){
 	            //time() 現在時間を1970/01/01 0:00:00から秒数で表した数字
 	            //2週間後を有効期限に設定している
+	            //60(秒) * 60(分) * 24(時間) * 14(日寛)
 	            setcookie('email',$email,time() + 60*60*24*14);
 	            setcookie('password',$password,time() + 60*60*24*14);
 	        }
