@@ -1,9 +1,11 @@
 <?php 
+//SESSION変数を使えるようにする
 session_start();
-require("signin_check.php");
+//データベースに接続
 require("dbconnect.php");
 
 $h = 'htmlspecialchars';
+
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
 $nav = array();
 if(!empty($_SESSION["user_id"])){
@@ -14,21 +16,44 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM users WHERE :user_id = id';
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
- ?>
+//出品された野菜を表示するためにデータを取得。
+if(!empty($_SESSION["user_id"])){
+	//ただし、サインインしている場合は自分が出品したものは表示されないようにする。
+	$sql = 'SELECT * FROM vegetables WHERE user_id != :user_id ORDER BY created DESC;';
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
+	$stmt->execute();
+}else{
+	$sql = 'SELECT * FROM vegetables ORDER BY created DESC;';
+	$stmt = $pdo->prepare($sql);
+	$stmt->execute();
+}
+
+
+
+//表示部分で使用できるようにタイムラインの情報を格納する配列を用意
+$timeline = array();
+while(1){
+	$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+	if($rec == false){
+		break;
+	}
+	if($rec["display_flag"] == '1'){
+		continue;
+	}
+	$timeline[] = $rec;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>マイページ</title>
+	<title>商品一覧</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/mypage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/product.css">
 </head>
 <body>
 	<header>
@@ -73,22 +98,21 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="main">
-		<div class="text-center">
-		<h3>マイページ</h3>
-		</div>
+	<div class="container">
 		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
-			</div>
-			<div class="col-md-2 text-center">
-				<h4>名前：<?php echo $h($user["name"]); ?></h4>
-				<h4>email：<?php echo $h($user["email"]); ?></h4>
-				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
-				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
+			<div class="col-md-offset-4 col-md-4 text-center title">
+				<h2>野菜一覧</h2>
 			</div>
 		</div>
+	</div>
+	<div>
+	<?php
+	// var_dump($timeline);
+	$i = 0;
+	foreach($timeline as $each_vege){
+		$count = count($timeline);
+		include("one_product.php");
+	} ?>
 	</div>
 	<footer>
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 

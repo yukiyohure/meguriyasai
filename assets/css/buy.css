@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+a{
+	text-rendering: none;
+}
+
+li{
+	list-style: none;
+}
+
+body{
+	background-color: #FFFACD;
+}
+
+.vege_img{
+	border-radius: 15px;
+  max-width:300px;
+  height:225px;
+  padding:10px;
+}
+
+.title{
+  margin-top:60px;
+}
+
+.main{
+	margin-bottom:70px;
+}

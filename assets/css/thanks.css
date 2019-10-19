@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+a{
+	text-rendering: none;
+}
+
+li{
+	list-style: none;
+}
+
+body{
+	background-color: #FFFACD;
+}
+
+.box{
+	margin-top:200px;
+	margin-bottom:80px;
+	line-height: 100%;
+}
+
+.to_login{
+	margin-top:30px;
+}

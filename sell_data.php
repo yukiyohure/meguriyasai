@@ -3,7 +3,7 @@ session_start();
 require("signin_check.php");
 require("dbconnect.php");
 
-$h = 'htmlspecialchars';
+$h = "htmlspecialchars";
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
 $nav = array();
 if(!empty($_SESSION["user_id"])){
@@ -14,26 +14,51 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM users WHERE :user_id = id';
+//ログインしているユーザーのidと商品のuser_idが一致しているデータを取得
+$sql = 'SELECT * FROM vegetables WHERE user_id = :signin_id';
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
+$stmt->bindValue(":signin_id",$_SESSION["user_id"],PDO::PARAM_INT);
 $stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
- ?>
-<!DOCTYPE html>
+
+//購入された商品に「購入されました」と表示するために処理を行う
+$one_sell_data = array();
+while(1){
+	$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+	if($rec == false){
+		break;
+	}
+	// if($rec["display_flag"] == '1'){
+	// 	$sold = 'sold';
+	// 	$sold_id = $rec["id"];
+	// }
+	$one_sell_data[] = $rec;
+}
+
+//削除ボタンが押されたらvegetableテーブルからデータを削除する
+if(!empty($_POST)){
+	$sql = 'DELETE FROM vegetables WHERE :vege_id = id';
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(":vege_id",$_POST["delete"],PDO::PARAM_INT);
+	$stmt->execute();
+
+	header("Location:sell_data.php");
+	exit();
+}
+?>
+<!DOCTYPE html> 
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>マイページ</title>
+	<title>出品履歴</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/mypage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/sell_data.css">
 </head>
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -73,22 +98,30 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="main">
-		<div class="text-center">
-		<h3>マイページ</h3>
-		</div>
+	<div class="container">
 		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
-			</div>
-			<div class="col-md-2 text-center">
-				<h4>名前：<?php echo $h($user["name"]); ?></h4>
-				<h4>email：<?php echo $h($user["email"]); ?></h4>
-				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
-				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
+			<div class="col-md-offset-4 col-md-4 text-center title">
+				<h2>あなたの出品一覧</h2>
+
 			</div>
 		</div>
+	</div>
+	<div class="main">
+	<?php
+	$i = 0;
+	foreach($one_sell_data as $each_vege){
+		$count = count($one_sell_data);
+		include("one_exibition.php");
+	} 
+
+	//出品した商品がない場合テキストを表示する
+	if(empty($one_sell_data)){?>
+	<div class="row">
+		<div class="col-md-offset-4 col-md-4">
+			<h4 class="text-center">-出品した商品はありません-</h4>
+		</div>
+	</div>
+	<?php } ?>
 	</div>
 	<footer>
 		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 

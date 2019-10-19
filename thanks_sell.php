@@ -14,26 +14,21 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM users WHERE :user_id = id';
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
  ?>
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>マイページ</title>
+	<title>出品ありがとうございます</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/mypage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/thanks_sell.css">
 </head>
 <body>
 	<header>
 <!-- navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -73,25 +68,22 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="main">
-		<div class="text-center">
-		<h3>マイページ</h3>
+	<div class="main text-center">
+		<div class="row">
+		<div class="col-md-offset-4 col-md-4">
+			<h3>出品ありがとうございました</h3>
 		</div>
 		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
-			</div>
-			<div class="col-md-2 text-center">
-				<h4>名前：<?php echo $h($user["name"]); ?></h4>
-				<h4>email：<?php echo $h($user["email"]); ?></h4>
-				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
-				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
+			<div class="col-md-offset-4 col-md-4 botton">
+				<a class="btn btn-danger" href="product.php">野菜一覧へ</a>
+				<a class="btn btn-danger" href="home.php">ホーム画面へ</a>
+				<a class="btn btn-danger" href="sell.php">続けて出品</a>
 			</div>
 		</div>
 	</div>
+	</div>
 	<footer>
-		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
+		<div class="navbar  navbar-inverse navbar-fixed-bottom">
 		  	<div class="container">
 		      	<div class="navbar-text pull=left">
 			    	<p> © meguriyasai 2018.</p>

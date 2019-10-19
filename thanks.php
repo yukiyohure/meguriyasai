@@ -1,7 +1,7 @@
 <?php 
 session_start();
-require("signin_check.php");
 require("dbconnect.php");
+// require("signin_check.php");
 
 $h = 'htmlspecialchars';
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
@@ -14,21 +14,16 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM users WHERE :user_id = id';
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
-$stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
  ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>マイページ</title>
+	<title>登録ありがとうございます</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/mypage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/thanks.css">
 </head>
 <body>
 	<header>
@@ -43,50 +38,20 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	        <span class="icon-bar"></span>
 	      </button>
 	      <a class="navbar-brand" href="home.php">巡り野菜</a>
-	    <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	    <?php if(isset($_SESSION["user_id"])){ ?>
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="home.php">HOME</a></li>
-	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
-	          <ul class="dropdown-menu">
-	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
-	            <li><a href="sell.php">野菜出品</a></li>
-	            <li><a href="sell_data.php">出品履歴</a></li>
-	            <li><a href="purchase_history.php">購入履歴</a></li>
-	            <li><a href="sales.php">購入された履歴</a></li>
-	            <li><a href="signout.php">サインアウト</a></li>
-	          </ul>
-	        </li>
-	       </ul>
-	    <?php }else{ ?>
-	    	<ul class="nav navbar-nav navbar-right">
-	          	<li><a href="signup.php">サインアップ</a></li>
-	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
-	        </ul>
-	    <?php } ?>
-	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container -->
 	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="main">
-		<div class="text-center">
-		<h3>マイページ</h3>
-		</div>
+	<div class="box text-center">
 		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
+			<div class="col-md-offset-4 col-md-4">
+				<h3>登録ありがとうございます。</h3>
 			</div>
-			<div class="col-md-2 text-center">
-				<h4>名前：<?php echo $h($user["name"]); ?></h4>
-				<h4>email：<?php echo $h($user["email"]); ?></h4>
-				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
-				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
+		</div>
+		<div class="row to_login">
+			<div class="col-md-offset-4 col-md-4">
+				<p>続けてサインイン➡︎
+				<a class="btn btn-danger" href="signin.php">サインイン画面へ</a></p>
 			</div>
 		</div>
 	</div>

@@ -1,9 +1,10 @@
 <?php 
 session_start();
-require("signin_check.php");
 require("dbconnect.php");
+require("signin_check.php");
 
 $h = 'htmlspecialchars';
+
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
 $nav = array();
 if(!empty($_SESSION["user_id"])){
@@ -14,26 +15,25 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM users WHERE :user_id = id';
+//購入した野菜の情報を取得
+$sql = 'SELECT * FROM `vegetables` INNER JOIN `buy_data` ON `vegetables`.`id` = `buy_data`.`vegetable_id` WHERE `buy_data`.`user_id` = :signed_user_id ORDER BY `buy_data`.`buy_day` DESC';
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
+$stmt->bindValue(':signed_user_id',$_SESSION["user_id"],PDO::PARAM_INT);
 $stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$sale = array();
  ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset="utf-8">
-	<title>マイページ</title>
+	<title>購入履歴</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/mypage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/purchase_history.css">
 </head>
 <body>
-	<header>
-<!-- navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -71,23 +71,34 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container -->
 	</nav>
-<!-- /.navbar -->
-	</header>
-	<div class="main">
-		<div class="text-center">
-		<h3>マイページ</h3>
+	<div class="main row col-md-offset-2 col-md-8">
+		<div class="">
+			<table class="text-center table table-bordered table-hover">
+				<!-- <caption class="text-center text-bold">買われた記録</caption> -->
+				<h4 class="text-center">購入履歴</h4>
+				<thead>
+					<tr>
+						<th>購入した日時</th>
+						<th>品名</th>
+						<th>個数・数量</th>
+						<th>出品者とのやりとり</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php while($sale = $stmt->fetch(PDO::FETCH_ASSOC)){ ?> 
+						<tr>
+							<td><?php echo $h($sale["buy_day"]); ?></td>
+							<td><?php echo $h($sale["name"]); ?></td>
+							<td><?php echo $h($sale["amount"]).$h($sale["unit"]); ?></td>
+							<td class="text-center"><a class="btn btn-success" href="message.php">トークルームへ</a></td>
+						</tr>
+					<?php }?>
+				</tbody>
+			</table>
 		</div>
-		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
-			</div>
-			<div class="col-md-2 text-center">
-				<h4>名前：<?php echo $h($user["name"]); ?></h4>
-				<h4>email：<?php echo $h($user["email"]); ?></h4>
-				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
-				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
-			</div>
+		<div class="text-center">
+			<a class="btn btn-danger" href="#">トップへ戻る</a>
+			<a class="btn btn-danger" href="home.php">ホームへもどる</a>
 		</div>
 	</div>
 	<footer>

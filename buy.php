@@ -1,9 +1,10 @@
 <?php 
 session_start();
-require("signin_check.php");
 require("dbconnect.php");
+require("signin_check.php");
 
 $h = 'htmlspecialchars';
+
 // ナビバーに表示するため、サインインしている場合ユーザー情報を取得
 $nav = array();
 if(!empty($_SESSION["user_id"])){
@@ -14,21 +15,47 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = 'SELECT * FROM users WHERE :user_id = id';
+$user_id = $_SESSION["user_id"];
+
+//購入された野菜のidを取得
+$sql = 'SELECT id FROM vegetables WHERE :created = created';
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
+$stmt->bindValue(":created",$_SESSION["created"],PDO::PARAM_STR);
 $stmt->execute();
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$vegetable_id = $rec["id"];
+
+//もらうボタンが押された時
+if(!empty($_POST)){
+	$sql = 'INSERT INTO buy_data (buy_day,user_id,vegetable_id) VALUES(NOW(),:user_id,:vegetable_id)';
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(":user_id",$user_id,PDO::PARAM_INT);
+	$stmt->bindValue(":vegetable_id",$vegetable_id,PDO::PARAM_INT);
+	$stmt->execute();
+
+	//購入された野菜をproduct.php上に表示されないようにするためにvegetablesのdisplay_flagに１を入れる
+	$sql = 'UPDATE `vegetables` SET `display_flag` = 1 WHERE `id` = :vegetable_id;';
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(":vegetable_id",$vegetable_id,PDO::PARAM_INT);
+	$stmt->execute();
+
+
+	header("Location:buy_confirm.php");
+	exit();
+}
  ?>
+}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>マイページ</title>
+	<title></title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
-	<link rel="stylesheet" type="text/css" href="assets/css/mypage.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/buy.css">
 </head>
 <body>
 	<header>
@@ -49,7 +76,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="home.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="18" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
 	            <li><a href="product.php">商品一覧</a></li>
@@ -73,20 +100,36 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	</nav>
 <!-- /.navbar -->
 	</header>
-	<div class="main">
-		<div class="text-center">
-		<h3>マイページ</h3>
+	<div class="container main">
+		<div class="row">
+			<div class="col-md-offset-4 col-md-4 title text-center">
+				<h2 clss="text-center">野菜の確認</h2>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
+			<div class="col-md-offset-3 col-md-6 text-center">
+				<img class="vege_img" src="assets/photos/vegetable_image/<?php echo $h($_SESSION["pic"]); ?>">
 			</div>
-			<div class="col-md-2 text-center">
-				<h4>名前：<?php echo $h($user["name"]); ?></h4>
-				<h4>email：<?php echo $h($user["email"]); ?></h4>
-				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
-				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
-				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
+		</div>
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+				<div class="text-center">
+					<h4><?php echo $h($_SESSION["name"]); ?>　
+						<?php echo $h($_SESSION["amount"]); ?>
+						<?php echo $h($_SESSION["unit"]); ?>
+					</h4>
+					<p><?php echo $h($_SESSION["description"]);?></p>
+					<p><?php echo $h($_SESSION["created"]); ?></p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-offset-4 col-md-4 text-center">
+				<form method="post" action="">
+					<a class="btn btn-default" href="product.php">戻る</a>
+					<input type="hidden" name="bought">
+					<input class="btn btn-danger" type="submit" value="貰う">
+				</form>
 			</div>
 		</div>
 	</div>

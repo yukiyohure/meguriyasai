@@ -2,7 +2,6 @@
 
 a{
 	text-rendering: none;
-	margin:10px;
 }
 
 li{
@@ -11,15 +10,12 @@ li{
 
 body{
 	background-color: #FFFACD;
-	margin-bottom:70px;
-	margin-top:80px;
-}
-
-.globe{
-	border-radius: 1000px;
-	padding
 }
 
 .main{
-	margin-top:150px;
+	margin-top:200px;
+}
+
+.botton{
+	margin-top:40px;
 }
