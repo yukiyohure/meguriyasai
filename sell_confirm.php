@@ -35,7 +35,7 @@ if(!empty($_POST)){
 	$stmt->bindValue(":name",$name,PDO::PARAM_STR);
 	$stmt->bindValue(":trade_place",$place,PDO::PARAM_STR);
 	$stmt->bindValue(":amount",mb_convert_kana($amount,'n'),PDO::PARAM_STR);//全角数字のデータを送信時に半角に変換
-	$stmt->bindValue(":unit",$unit,PDO::PARAM_INT);
+	$stmt->bindValue(":unit",$unit,PDO::PARAM_STR);
 	$stmt->bindValue(":description",$description,PDO::PARAM_STR);
 	$stmt->bindValue(":pic",$pic,PDO::PARAM_STR);
 	$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);

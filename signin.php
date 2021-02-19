@@ -35,7 +35,7 @@ if(!empty($_POST)){
 		}
 
 		//パスワードのデータが一致するかどうか検証
-		if(password_verify($password,$record["password"])){
+		if($password && isset($record["password"]) && password_verify($password,$record["password"])){
 			//一致した場合、SESSION変数にIDを保存(ユーザーがログインしているかの判断材料にするため)
 			$_SESSION["user_id"] = $record["id"];
 
