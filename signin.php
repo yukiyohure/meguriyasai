@@ -47,7 +47,7 @@ if(!empty($_POST)){
 	            setcookie('password',$password,time() + 60*60*24*14);
 	        }
 			//timeline.phpに移動
-			header("Location:home.php");
+			header("Location:index.php");
 			exit();
 		}else{
 			$errors["signin"] = "failed";
@@ -84,7 +84,7 @@ if(!empty($_POST)){
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="home.php">巡り野菜</a>
+	      <a class="navbar-brand" href="index.php">巡り野菜</a>
 	  </div><!-- /.container -->
 	</nav>
 <!-- /.navbar -->

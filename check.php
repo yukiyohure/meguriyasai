@@ -61,7 +61,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="home.php">巡り野菜</a>
+        <a class="navbar-brand" href="index.php">巡り野菜</a>
     </div><!-- /.container -->
   </nav>
 <!-- /.navbar -->

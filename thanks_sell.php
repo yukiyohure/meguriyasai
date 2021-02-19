@@ -37,12 +37,12 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="home.php">巡り野菜</a>
+	      <a class="navbar-brand" href="index.php">巡り野菜</a>
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	    <?php if(isset($_SESSION["user_id"])){ ?>
 	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="home.php">HOME</a></li>
+	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
 	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
@@ -76,7 +76,7 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 		<div class="row">
 			<div class="col-md-offset-4 col-md-4 botton">
 				<a class="btn btn-danger" href="product.php">野菜一覧へ</a>
-				<a class="btn btn-danger" href="home.php">ホーム画面へ</a>
+				<a class="btn btn-danger" href="index.php">ホーム画面へ</a>
 				<a class="btn btn-danger" href="sell.php">続けて出品</a>
 			</div>
 		</div>
