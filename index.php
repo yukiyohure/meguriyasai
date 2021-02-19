@@ -1,7 +1,6 @@
 <?php
 session_start();
 require("dbconnect.php");
-require('../vendor/autoload.php');
 
 $h = 'htmlspecialchars';
 
