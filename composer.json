@@ -1,0 +1,11 @@
+{
+    "require": {
+      "php": "~7.4.15",
+      "ext-mbstring": "*",
+      "cloudinary/cloudinary_php": "dev-master"
+    },
+
+    "require-dev": {
+      "heroku/heroku-buildpack-php": "*"
+    }
+}

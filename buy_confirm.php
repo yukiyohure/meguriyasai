@@ -43,10 +43,10 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -59,7 +59,7 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -71,7 +71,7 @@ $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 		<div class="row">
 			<div class="col-md-offset-4 col-md-4 contents text-center">
 				<h2>購入確認</h2>
-				<p>あなたは「<?php echo $h($_SESSION["name"]); ?>　<?php echo $h($_SESSION["amount"]); ?><?php echo $h($_SESSION["unit"]); ?>」を購入しました。<br>届くまでしばらくお待ちください。</p>
+				<p>あなたは「<?php echo $h($_SESSION["name"]); ?>　<?php echo $h($_SESSION["amount"]); ?><?php echo $h($_SESSION["unit"]); ?>」を購入しました。<br>購入履歴から出品者とメッセージでやりとりしてください。</p>
 			</div>
 		</div>
 		<div class="row text-center">

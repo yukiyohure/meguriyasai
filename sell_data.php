@@ -14,13 +14,13 @@ $stmt->execute();
 $nav = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-//ログインしているユーザーのidと商品のuser_idが一致しているデータを取得
+//ログインしているユーザーのidと野菜のuser_idが一致しているデータを取得
 $sql = 'SELECT * FROM vegetables WHERE user_id = :signin_id';
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(":signin_id",$_SESSION["user_id"],PDO::PARAM_INT);
 $stmt->execute();
 
-//購入された商品に「購入されました」と表示するために処理を行う
+//購入された野菜に「購入されました」と表示するために処理を行う
 $one_sell_data = array();
 while(1){
 	$rec = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -74,10 +74,10 @@ if(!empty($_POST)){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -90,7 +90,7 @@ if(!empty($_POST)){
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -114,11 +114,11 @@ if(!empty($_POST)){
 		include("one_exibition.php");
 	} 
 
-	//出品した商品がない場合テキストを表示する
+	//出品した野菜がない場合テキストを表示する
 	if(empty($one_sell_data)){?>
 	<div class="row">
 		<div class="col-md-offset-4 col-md-4">
-			<h4 class="text-center">-出品した商品はありません-</h4>
+			<h4 class="text-center">-出品した野菜はありません-</h4>
 		</div>
 	</div>
 	<?php } ?>

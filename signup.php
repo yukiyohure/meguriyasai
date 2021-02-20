@@ -1,4 +1,4 @@
-<?php 
+<?php
 	session_start();
 	require("dbconnect.php");
 	$h = 'htmlspecialchars';
@@ -81,7 +81,7 @@
 			//user_profile_img/.$submit_file_nameと文字連結をすることで
 			//user_profile_img/20170903073829.jpgのような保存先を指定している
 			// move_uploaded_file(filename, destination(目的地))
-			move_uploaded_file($_FILES['pic']['tmp_name'],'assets/photos/user_profile_image/'.$submit_file_name);
+			move_uploaded_file($_FILES['pic']['tmp_name'], 'assets/photos/user_profile_image/'.$submit_file_name);
 
 			//遷移先でも扱えるようにsession関数にデータを保存
 			$_SESSION['register']['name'] = $_POST['input_name'];

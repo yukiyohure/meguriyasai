@@ -27,10 +27,10 @@
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -43,7 +43,7 @@
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -61,11 +61,11 @@
 						<td>柴田祐輝<br>〒000-0000<br>テキストテキストテキストテキストテキスト<br>123-457-8900</td>
 					</tr>
 					<tr>
-						<th>商品以外にかかる料金</th>
+						<th>野菜以外にかかる料金</th>
 						<td>・消費税8%・送料</td>
 					</tr>
 					<tr>
-						<th>商品引渡時期</th>
+						<th>野菜引渡時期</th>
 						<td>原則、受注後4日以内（土日祝祭日、盆正月を除く）／宅急便</td>
 					</tr>
 					<tr>
@@ -74,7 +74,7 @@
 					</tr>
 					<tr>
 						<th>返品・交換について</th>
-						<td>お客様都合よる商品の返品及び交換は承っておりません。但し、当社原因による商品の欠陥・不良があった場合には、返品・交換を承ります。この場合の返品期限は、商品到着後2日以内に、お問い合わせフォームまたはメールにて、その旨を通知するものとし、当社は良品もしくは代替と交換します。</td>
+						<td>お客様都合よる野菜の返品及び交換は承っておりません。但し、当社原因による野菜の欠陥・不良があった場合には、返品・交換を承ります。この場合の返品期限は、野菜到着後2日以内に、お問い合わせフォームまたはメールにて、その旨を通知するものとし、当社は良品もしくは代替と交換します。</td>
 					</tr>
 				</tbody>
 			</table>

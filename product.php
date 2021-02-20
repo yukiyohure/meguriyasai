@@ -49,7 +49,7 @@ while(1){
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>商品一覧</title>
+	<title>野菜一覧</title>
 	<!-- navbar -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<!-- localcss -->
@@ -74,10 +74,10 @@ while(1){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -90,7 +90,7 @@ while(1){
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -102,6 +102,7 @@ while(1){
 		<div class="row">
 			<div class="col-md-offset-4 col-md-4 text-center title">
 				<h2>野菜一覧</h2>
+				<p>※自分が投稿した野菜は表示されません。</p>
 			</div>
 		</div>
 	</div>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 require("signin_check.php");
 require("dbconnect.php");
@@ -35,7 +35,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <!-- navbar -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
-	    <!-- Brand and toggle get grouped for better mobile display -->
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 	        <span class="sr-only">Toggle navigation</span>
 	        <span class="icon-bar"></span>
@@ -43,16 +42,15 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	        <span class="icon-bar"></span>
 	      </button>
 	      <a class="navbar-brand" href="index.php">巡り野菜</a>
-	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	    <?php if(isset($_SESSION["user_id"])){ ?>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -65,7 +63,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -77,13 +75,15 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 		<div class="text-center">
 		<h3>マイページ</h3>
 		</div>
-		<div class="row">
+		<div>
 			<div class="col-md-offset-4 col-md-2">
-				<img class="globe" src="assets/photos/user_profile_image/<?php echo $h($user["pic"]); ?>">
+				<img class="globe" src=<?php echo $h($user["pic"]); ?>>
 			</div>
 			<div class="col-md-2 text-center">
 				<h4>名前：<?php echo $h($user["name"]); ?></h4>
 				<h4>email：<?php echo $h($user["email"]); ?></h4>
+				<h4>郵便番号：〒<?php echo $h($user["postal_code"]); ?></h4>
+				<h4>住所：<?php echo $h($user["address"]); ?></h4>
 				<a class="btn btn-danger" href="sell_data.php">出品履歴</a><br>
 				<a class="btn btn-danger" href="sales.php">購入された履歴</a><br>
 				<a class="btn btn-danger" href="signout.php">サインアウト</a><br>
@@ -91,7 +91,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 		</div>
 	</div>
 	<footer>
-		<div class="navbar  navbar-inverse navbar-fixed-bottom"> 
+		<div class="navbar  navbar-inverse navbar-fixed-bottom">
 		  	<div class="container">
 		      	<div class="navbar-text pull=left">
 			    	<p> © meguriyasai 2018.</p>

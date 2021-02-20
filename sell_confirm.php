@@ -1,8 +1,13 @@
-<?php 
+<?php
 session_start();
+require 'vendor/autoload.php';
+use Cloudinary\Api\Upload\UploadApi;
+
 require("signin_check.php");
 //データベースに接続
 require("dbconnect.php");
+require("cloudinaryConnect.php");
+
 //直接sell_cconfirm.phpに訪れられた時はsell.phpに強制遷移させる
 if(!isset($_SESSION["vege"])){
 	header("Location:sell.php");
@@ -30,6 +35,8 @@ $pic = $_SESSION["vege"]["pic"];
 
 //出品するボタンが押されたら処理する
 if(!empty($_POST)){
+	$ret = (new UploadApi())->upload('assets/photos/vegetable_image/'.$pic);
+
 	$sql = "INSERT INTO vegetables (name,trade_place,amount,unit,description,pic,created,user_id) VALUES(:name,:trade_place,:amount,:unit,:description,:pic,NOW(),:user_id);";
 	$stmt = $pdo->prepare($sql);
 	$stmt->bindValue(":name",$name,PDO::PARAM_STR);
@@ -37,7 +44,7 @@ if(!empty($_POST)){
 	$stmt->bindValue(":amount",mb_convert_kana($amount,'n'),PDO::PARAM_STR);//全角数字のデータを送信時に半角に変換
 	$stmt->bindValue(":unit",$unit,PDO::PARAM_STR);
 	$stmt->bindValue(":description",$description,PDO::PARAM_STR);
-	$stmt->bindValue(":pic",$pic,PDO::PARAM_STR);
+	$stmt->bindValue(":pic",$ret["url"],PDO::PARAM_STR);
 	$stmt->bindValue(":user_id",$_SESSION["user_id"],PDO::PARAM_INT);
 	$stmt->execute();
 
@@ -76,10 +83,10 @@ if(!empty($_POST)){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -92,7 +99,7 @@ if(!empty($_POST)){
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -109,7 +116,7 @@ if(!empty($_POST)){
 		<div class="confirm_box">
 			<div class="row">
 				<div class="text-right col-md-offset-4 col-md-2">
-					<h4>商品名：</h4>
+					<h4>野菜名：</h4>
 				</div>
 				<div class="col-md-2">
 					<h4><?php echo $h($name); ?></h4>
@@ -141,7 +148,7 @@ if(!empty($_POST)){
 			</div>
 			<div class="row ">
 				<div class="text-right col-md-offset-4 col-md-2">
-					<h4>商品画像：</h4>
+					<h4>野菜画像：</h4>
 				</div>
 				<div class="col-md-4 product_img">
 					<img src="assets/photos/vegetable_image/<?php echo $h($pic); ?>">
@@ -152,11 +159,6 @@ if(!empty($_POST)){
 					<h4>以上の内容で出品しますか？</h4>
 				</div>
 			</div>
-			<!-- <div class="row btn_zone">
-				<div clasS="col-md-offset-3 col-md-6 text-center">
-					<a class="btn btn-danger" href="thanks_sell.php">出品する</a>
-				</div>
-			</div> -->
 			<div class=" col-md-offset-3 col-md-6 text-center">
 				<form method="POST" action="">
 	            <a href="sell.php?reaction=rewrite" class="btn btn-default">&laquo;&nbsp;戻る</a>
@@ -164,7 +166,7 @@ if(!empty($_POST)){
 	            <input type="submit" class="btn btn-danger" value="出品する">
 			</div>
 			<div class="col-md-offset-3 col-md-6 text-center">
-				<p>※[戻る]を押した場合、商品画像を再選択する必要があります</p>
+				<p>※[戻る]を押した場合、野菜画像を再選択する必要があります</p>
 			</div>
 			</form>
 		</div>

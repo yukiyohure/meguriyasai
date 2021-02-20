@@ -1,8 +1,14 @@
-<?php 
+<?php
   session_start();
+  require 'vendor/autoload.php';
+  use Cloudinary\Api\Upload\UploadApi;
+
   $h = 'htmlspecialchars';
   //データベースに接続
   require('dbconnect.php');
+
+  require("cloudinaryConnect.php");
+
   //直接check.phpに訪れられた時はsignup.phpに強制遷移させる
   if(!isset($_SESSION['register'])){
     header("Location:signup.php");
@@ -19,6 +25,8 @@
 
   // 登録ボタンが押された時のみ処理するif文
   if(!empty($_POST)){
+    $ret = (new UploadApi())->upload('assets/photos/user_profile_image/'.$pic);
+
     $sql = 'INSERT INTO users (name,postal_code,address,email,password,pic,created) VALUES(:name,:postal_code,:address,:email,:password,:pic,NOW());';
     // $sql = 'INSERT INTO `users` SET `name`=?,`postal_code` = ?,`address` = ?,`email` = ?,`password` = ?,`pic` = ?,`created` = NOW()';
     // $data = array($name,$postal_code,$address,$email,password_hash($password,PASSWORD_DEFAULT),$pic); //⬅︎⬆この組み合わせは数が合わなかったり間違えたりする。︎
@@ -28,7 +36,7 @@
     $stmt->bindValue(':address',$address,PDO::PARAM_STR);
     $stmt->bindValue(':email',$email,PDO::PARAM_STR);
     $stmt->bindValue(':password',password_hash($password,PASSWORD_DEFAULT),PDO::PARAM_STR);
-    $stmt->bindValue(':pic',$pic,PDO::PARAM_STR);
+    $stmt->bindValue(':pic',$ret["url"],PDO::PARAM_STR);
     // $stmt->execute($data);
     $stmt->execute();
 
@@ -73,7 +81,6 @@
         <h2 class="text-center content_header">アカウント情報確認</h2>
         <div class="row">
           <div class="col-md-offset-2 col-md-2">
-            <!-- <img src="../user_profile_img/<?php //echo htmlspecialchars($img_name); ?>" class="img-responsive img-thumbnail"> -->
             <img class="globe" src="assets/photos/user_profile_image/<?php echo $h($pic); ?>">
           </div>
           <div class="col-md-offset-2 col-md-6">

@@ -68,7 +68,6 @@ if(!empty($_POST)){
 	if(empty($errors)){
 		$data_str = date('YmdHis');
 		$submit_file_name = $data_str.$file_name;
-
 		move_uploaded_file($_FILES['pic']['tmp_name'], 'assets/photos/vegetable_image/'.$submit_file_name);
 
 		$_SESSION["vege"]["name"] = $_POST["name"];
@@ -118,10 +117,10 @@ if(!empty($_POST)){
 	      <ul class="nav navbar-nav navbar-right">
 	        <li><a href="index.php">HOME</a></li>
 	        <li class="dropdown">
-	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="assets/photos/user_profile_image/<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
+	          <a href="#" class="user_icon dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="<?php echo $h($nav["pic"]); ?>" width="28" class="img-circle"><?php echo $h($nav["name"]); ?><span class="caret"></span></a>
 	          <ul class="dropdown-menu">
 	            <li><a href="mypage.php">マイページ</a></li>
-	            <li><a href="product.php">商品一覧</a></li>
+	            <li><a href="product.php">野菜一覧</a></li>
 	            <li><a href="sell.php">野菜出品</a></li>
 	            <li><a href="sell_data.php">出品履歴</a></li>
 	            <li><a href="purchase_history.php">購入履歴</a></li>
@@ -134,7 +133,7 @@ if(!empty($_POST)){
 	    	<ul class="nav navbar-nav navbar-right">
 	          	<li><a href="signup.php">サインアップ</a></li>
 	          	<li><a href="signin.php">サインイン</a></li>
-	          	<li><a href="product.php">商品一覧</a></li>
+	          	<li><a href="product.php">野菜一覧</a></li>
 	        </ul>
 	    <?php } ?>
 	    </div><!-- /.navbar-collapse -->
@@ -144,17 +143,17 @@ if(!empty($_POST)){
 	</header>
 	<div class="container">
 		<div class="title text-center">
-			<h2>商品情報入力 </h2>
+			<h2>野菜情報入力 </h2>
 		</div>
 		<div class="row box">
 			<div class="col-md-offset-3 col-md-6">
 				<form action="sell.php" enctype="multipart/form-data" method="post" enctype="multipart/form-data">
 					<div class="form-group">
 						<div class="form-group">
-							<label for="name">商品名<span class="text-danger">*</span></label>
-							<input class="form-control" type="text" name="name" id="name" placeholder="商品名を入力してください" value="<?php echo $h($name);?>"/>
+							<label for="name">野菜名<span class="text-danger">*</span></label>
+							<input class="form-control" type="text" name="name" id="name" placeholder="野菜名を入力してください" value="<?php echo $h($name);?>"/>
 							<?php if((isset($errors["name"])) && ($errors["name"] == "blank")){ ?>
-							<p class="text-danger">※商品名を入力してください</p>
+							<p class="text-danger">※野菜名を入力してください</p>
 							<?php } ?>
 						</div>
 						<div class="form-group">
@@ -189,7 +188,7 @@ if(!empty($_POST)){
 							<?php } ?>
 						</div>
 						<div class="form-group">
-							<label for="pic">商品画像<span class="text-danger">*</span></label>
+							<label for="pic">野菜画像<span class="text-danger">*</span></label>
 							<input class="form-control" type="file" name="pic" id="pic" accept="image/*">
 							<?php if((isset($errors["pic"])) && ($errors["pic"] == "blank")){ ?>
 							<p class="text-danger">※画像を選択してください</p>
